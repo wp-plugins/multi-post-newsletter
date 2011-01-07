@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Multipost Newsletter\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Thomas Herzog <thomas@piraten-sachsen.de>\n"
+"Language-Team: Piratenpartei Sachsen <thomas@piraten-sachsen.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: Germany\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Search Newsletter"
+msgstr "Newsletter suchen"
+
+msgid "Popular Newsletter"
+msgstr "Populäre Newsletter"
+
+msgid "All Newsletter"
+msgstr "Alle Newsletter"
+
+msgid "Parent Newsletter"
+msgstr "Übergeordneter Newsletter"
+
+msgid "Parent Newsletter:"
+msgstr "Übergeordneter Newsletter:"
+
+msgid "Edit Newsletter"
+msgstr "Editiere Newsletter"
+
+msgid "Add Newsletter"
+msgstr "Newsletter hinzufügen"
+
+msgid "Contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "Testmail successfully send!"
+msgstr "Testemail erfolgreich gesendet!"
+
+msgid "Newsletter successfully send!"
+msgstr "Newsletter wurde erfolgreich gesendet!"
+
+msgid "Settings have been saved!"
+msgstr "Einstellungen wurden gespeichert!"
+
+msgid "Newsletter Configuration"
+msgstr "Newsletter Konfiguration"
+
+msgid "General Configuration"
+msgstr "Allgemeine Konfiguration"
+
+msgid "Sender Name"
+msgstr "Absender Name"
+
+msgid "Sender E-Mail"
+msgstr "Absender E-Mail"
+
+msgid "Recipient of Testmail"
+msgstr "Empfänger der Testmail"
+
+msgid "Recipient of Newsletter"
+msgstr "Empfänger des Newsletters"
+
+msgid "Exluded Categories <small>IDs, comma sperated</small>"
+msgstr "Ausgeschlossene Kategorien <small>IDs, Komma-separiert</small>"
+
+msgid "Template Configuration"
+msgstr "Template Konfiguration"
+
+msgid "Background-Color (odd)"
+msgstr "Hintergrundfarbe (gerade)"
+
+msgid "Background-Color (even)"
+msgstr "Hintergrundfarbe (ungerade)"
+
+msgid "Contents Headline (before)"
+msgstr "Vor Überschrift Inhaltsverzeichnis"
+
+msgid "Contents Headlines (after)"
+msgstr "Nach Überschrift Inhaltsverzeichnis"
+
+msgid "Categorie Headlines (before)"
+msgstr "Vor Kategorieberschriften"
+
+msgid "Categorie Headlines (after)"
+msgstr "Nach Kategorieberschriften"
+
+msgid "Newsletter Template"
+msgstr "Newsletter Template"
+
+msgid "Single Post Template"
+msgstr "Einzelnes Post Tempate"
+
+msgid "Test successful? Send Newsletter now!"
+msgstr "Test erfolgreich? Newsletter jetzt senden!"
+
+msgid "Send Testmail"
+msgstr "Testmail versenden"
+
+msgid "Select Newsletter"
+msgstr "Newsletter auswhlen"
+
+msgid "Intro-Text"
+msgstr "Einleitungstext"
+

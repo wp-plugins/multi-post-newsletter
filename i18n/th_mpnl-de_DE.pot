@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Search Newsletter"
+msgstr "Newsletter suchen"
+
+msgid "Popular Newsletter"
+msgstr "Populäre Newsletter"
+
+msgid "All Newsletter"
+msgstr "Alle Newsletter"
+
+msgid "Parent Newsletter"
+msgstr "Übergeordneter Newsletter"
+
+msgid "Parent Newsletter:"
+msgstr "Übergeordneter Newsletter:"
+
+msgid "Edit Newsletter"
+msgstr "Editiere Newsletter"
+
+msgid "Add Newsletter"
+msgstr "Newsletter hinzufügen"
+
+msgid "Contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "Testmail successfully send!"
+msgstr "Testemail erfolgreich gesendet!"
+
+msgid "Newsletter successfully send!"
+msgstr "Newsletter wurde erfolgreich gesendet!"
+
+msgid "Settings have been saved!"
+msgstr "Einstellungen wurden gespeichert!"
+
+msgid "Newsletter Configuration"
+msgstr "Newsletter Konfiguration"
+
+msgid "General Configuration"
+msgstr "Allgemeine Konfiguration"
+
+msgid "Sender Name"
+msgstr "Absender Name"
+
+msgid "Sender E-Mail"
+msgstr "Absender E-Mail"
+
+msgid "Recipient of Testmail"
+msgstr "Empfänger der Testmail"
+
+msgid "Recipient of Newsletter"
+msgstr "Empfänger des Newsletters"
+
+msgid "Exluded Categories <small>IDs, comma sperated</small>"
+msgstr "Ausgeschlossene Kategorien <small>IDs, Komma-separiert</small>"
+
+msgid "Template Configuration"
+msgstr "Template Konfiguration"
+
+msgid "Background-Color (odd)"
+msgstr "Hintergrundfarbe (gerade)"
+
+msgid "Background-Color (even)"
+msgstr "Hintergrundfarbe (ungerade)"
+
+msgid "Contents Headline (before)"
+msgstr "Vor Überschrift Inhaltsverzeichnis"
+
+msgid "Contents Headlines (after)"
+msgstr "Nach Überschrift Inhaltsverzeichnis"
+
+msgid "Categorie Headlines (before)"
+msgstr "Vor Kategorieüberschriften"
+
+msgid "Categorie Headlines (after)"
+msgstr "Nach Kategorieüberschriften"
+
+msgid "Newsletter Template"
+msgstr "Newsletter Template"
+
+msgid "Single Post Template"
+msgstr "Einzelnes Post Tempate"
+
+msgid "Test successful? Send Newsletter now!"
+msgstr "Test erfolgreich? Newsletter jetzt senden!"
+
+msgid "Send Testmail"
+msgstr "Testmail versenden"
+
+msgid "Select Newsletter"
+msgstr "Newsletter auswählen"
+
+msgid "Intro-Text"
+msgstr "Einleitungstext"
