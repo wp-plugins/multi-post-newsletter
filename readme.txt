@@ -1,6 +1,6 @@
 === Multi Post Newsletter ===
-Contributors: Hugh Will Fayle
-Donate Link: http://www.hughwilfayle.de
+Contributors: hughwillfayle
+Donate Link: http://hughwillfayle.de
 Tags: newsletter, multiple posts 
 Requires at least: 3.0
 Tested up to: 3.0.4
