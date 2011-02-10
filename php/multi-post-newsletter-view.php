@@ -127,12 +127,14 @@ class mpnl_view {
                      </th>
                      <td>
                       <textarea id="template[post_template]" name="template[post_template]" tabindex="13" rows="20" class="large-text"><? echo $template['post_template']; ?></textarea><br />
-                      <small>Tags: %TITLE% // %CONTENT% // %DATE% // %AUTHOR% // %COLOR%</small>
+                      <small>Tags: %TITLE% // %CONTENT% // %DATE% // %AUTHOR% // %COLOR% // %LINK%</small>
                      </td>
                     </tr>
                    </tbody>
                   </table>
                   
+                  <input name="save_settings" type="submit" class="button-primary" tabindex="14" value="<?php _e( 'Save' ); ?>" style="float: right;" />
+                  <br class="clear" />
                  </form>
                 </div>
                </div>
@@ -152,10 +154,10 @@ class mpnl_view {
                 <div class="inside">
                  <form action="" method="post">
                   <?php if ( isset( $_POST['send_test'] ) ) { ?>
-                    <input name="send_mail" type="submit" class="button-primary" tabindex="6" value="<?php _e( 'Test successful? Send Newsletter now!', 'th_mpnl' ); ?>" style="float: right;" />
+                    <input name="send_mail" type="submit" class="button-primary" tabindex="7" value="<?php _e( 'Test successful? Send Newsletter now!', 'th_mpnl' ); ?>" style="float: right;" />
                   <?php } ?>
-                  <input name="send_test" type="submit" class="button-secondary" tabindex="5" value="<?php _e( 'Send Testmail', 'th_mpnl' ); ?>" style="float: right;" />
-                  <input name="preview" type="submit" class="button-secondary" tabindex="4" value="<?php _e( 'Preview' ); ?>" style="float: right;" />
+                  <input name="send_test" type="submit" class="button-secondary" tabindex="6" value="<?php _e( 'Send Testmail', 'th_mpnl' ); ?>" style="float: right;" />
+                  <input name="preview" type="submit" class="button-secondary" tabindex="5" value="<?php _e( 'Preview' ); ?>" style="float: right;" />
                   
                   <table class="form-table">
                    <tbody>
@@ -181,10 +183,26 @@ class mpnl_view {
                     </tr>
                     <tr valign="top">
                      <th scope="row">
+                      <label for="param[contents]"><?php _e( 'Display contents', 'th_mpnl' ); ?>:</label>
+                     </th>
+                     <td>
+                      <input id="param[contents]" name="param[contents]" type="checkbox" tabindex="3" <?php if ( 'on' == $params['contents'] ) { echo 'checked="checked"'; } ?> />
+                     </td>
+                    </tr>
+                    <tr valign="top">
+                     <th scope="row">
+                      <label for="param[contents]"><?php _e( 'Content as Excerpt', 'th_mpnl' ); ?>:</label>
+                     </th>
+                     <td>
+                      <input id="param[excerpt]" name="param[excerpt]" type="checkbox" tabindex="3" <?php if ( 'on' == $params['excerpt'] ) { echo 'checked="checked"'; } ?> />
+                     </td>
+                    </tr>
+                    <tr valign="top">
+                     <th scope="row">
                       <label for="param[header]"><?php _e( 'Intro-Text', 'th_mpnl' ); ?>:</label>
                      </th>
                      <td>
-                      <textarea id="param[header]" name="param[header]" tabindex="3" rows="20" class="large-text"><? echo $params['header']; ?></textarea>
+                      <textarea id="param[header]" name="param[header]" tabindex="4" rows="20" class="large-text"><? echo $params['header']; ?></textarea>
                      </td>
                     </tr>
                    </tbody>

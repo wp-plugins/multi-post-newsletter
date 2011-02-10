@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.1.1
+Version: 0.2
 Author URI: http://hughwillfayle.de/
 */
 
@@ -31,7 +31,7 @@ class mpnl extends mpnl_modul {
 	 * Kick off
 	 */
 	function mpnl_init () {
-		add_menu_page( 'MP-Newsletter', 'MP-Newsletter', 9, 'mpnl_generate', array( &$this, 'mpnl_switch' ) );
+		add_menu_page( 'MP-Newsletter', 'MP-Newsletter', 'manage_options', 'mpnl_generate', array( &$this, 'mpnl_switch' ) );
 		add_options_page( 'MP-Newsletter', 'MP-Newsletter', 'manage_options', 'mpnl_config', array( &$this, 'mpnl_switch' ) );
 	}
 	
@@ -135,8 +135,8 @@ class mpnl extends mpnl_modul {
 	function mpnl_build ( $params ) {
 		// Load Options and Template
 		$options		= get_option( "mp-newsletter-params" );
-		$mailTemplate	= str_replace( '\\', '', get_option( 'mp-newsletter-template-main' ) );
-		$postTemplate	= str_replace( '\\', '', get_option( 'mp-newsletter-template-post' ) );
+		$mail_template	= str_replace( '\\', '', get_option( 'mp-newsletter-template-main' ) );
+		$post_template	= str_replace( '\\', '', get_option( 'mp-newsletter-template-post' ) );
 		
 		// Load the letter
 		$letter = get_terms( 'newsletter', array( 'slug' => $params['letter'] ) );
@@ -144,84 +144,105 @@ class mpnl extends mpnl_modul {
 		
 		// Custom Loop and several checks
 		$categories    = get_categories( array( 'exclude' => $options['exclude'], 'hide_empty' => true, 'parent' => 0 ) );
-		$mailBodyPosts = '';
+		$mail_body_posts = '';
 		$color         = 'even';
-		$mailContents  = $options['contents_before'] . __( 'Contents', 'th_mpnl' ) . $options['contents_after'];
-		$mailContents .= '<ul style="list-style:none;">';
+
+		if ( 'on' == $params['contents'] ) {
+			$mail_contents  = $options['contents_before'] . __( 'Contents', 'th_mpnl' ) . $options['contents_after'];
+			$mail_contents .= '<ul style="list-style:none;">';
+		}
+		
 		foreach ( $categories as $category ) {
 			
-			$customQuery = new WP_Query( array( 'category_name' => $category->slug , 'newsletter' => $params['letter'] ) );
+			$custom_query = new WP_Query( array( 'category_name' => $category->slug , 'newsletter' => $params['letter'] ) );
 			//The Loop
-			if ( $customQuery->post_count > 0 ) {
+			if ( $custom_query->post_count > 0 ) {
 				
 				// Contents and Headlines
-				$mailContents .= '<li>' . $category->name . '<ul style="list-style:none;">';
-				$mailBodyPosts .= $options['categorie_before'] . $category->name . $options['categorie_after'];
+				if ( 'on' == $params['contents'] ) {
+					$mail_contents .= '<li>' . $category->name . '<ul style="list-style:none;">';
+				}
+				$mail_body_posts .= $options['categorie_before'] . $category->name . $options['categorie_after'];
 				
-				if ( $customQuery->have_posts() ) : while ( $customQuery->have_posts() ) : $customQuery->the_post();
+				if ( $custom_query->have_posts() ) : while ( $custom_query->have_posts() ) : $custom_query->the_post();
+				
 					// Contents
-					$mailContents .= '<li><a href="#' . get_the_ID() . '">' . get_the_title() . '</a></li>';
+					if ( 'on' == $params['contents'] ) {
+						$mail_contents .= '<li><a href="#' . get_the_ID() . '">' . get_the_title() . '</a></li>';
+					}
 					
 					if ( $color == 'even' ) {
-						$theColor = $options['color_even'];
+						$the_color = $options['color_even'];
 						$color = 'odd';
 					}
 					else {
-						$theColor = $options['color_odd'];
+						$the_color = $options['color_odd'];
 						$color = 'even';
 					}
 					
-					// Posts
-					$tmp = str_replace( '%DATE%', get_the_date(), $postTemplate );
+					$the_link = '<a href="' . get_permalink() . '">' . __( 'Read the Article in the blog', 'th_mpnl' ) . '</a>';
+					
+					// Prepare
 					$post->post_title = '<a name="' . get_the_ID() . '"></a>' . get_the_title();
-					$tmp = str_replace( '%TITLE%', $post->post_title, $tmp );
-					$post->post_content = get_the_content();
-					$tmp = str_replace( '%CONTENT%', nl2br( $post->post_content ),$tmp );
-					$tmp = str_replace( '%AUTHOR%', get_the_author(), $tmp );
-					$tmp = str_replace( '%COLOR%', $theColor, $tmp );
-					$mailBodyPosts .= $tmp;
-				
+					if ( 'on' == $params['excerpt'] ) {
+						add_filter( 'excerpt_more', array( &$this, 'force_strip_expert' ) );
+						$content_to_post = get_the_excerpt();
+					}
+					else {
+						$post->post_content = $this->get_the_content_with_formatting();
+						$content_to_post = $post->post_content;
+					}
+					
+					// Replace Template Vars
+					$haystack = array( '%DATE%', '%TITLE%', '%CONTENT%', '%AUTHOR%', '%COLOR%', '%LINK%' );
+					$needle   = array( get_the_date(), $post->post_title, $content_to_post, get_the_author(), $the_color, $the_link );
+					$replace  = str_replace( $haystack , $needle, $post_template );
+
+					$mail_body_posts .= $replace;
+					
 				endwhile;endif;
 				//Reset Query
 				wp_reset_query();
 				
 				// Contents close
-				$mailContents .= '</ul></li>';
+				if ( 'on' == $params['contents'] ) {
+					$mail_contents .= '</ul></li>';
+				}
 			}
 		}
 		
 		// Contents close
-		$mailContents .= '</ul>';
+		if ( 'on' == $params['contents'] ) {
+			$mail_contents .= '</ul>';
+		}
 		
 		// Build Mailbody
-		$mailBody = str_replace( '%HEADER%', $_POST['param']['header'], $mailTemplate );
-		$mailBody = str_replace( '%NAME%', $params['title'], $mailBody );
-		$mailBody = str_replace( '%DATE%', date( 'd.m.Y' ), $mailBody );
-		$mailBody = str_replace( '%BODY%', $mailBodyPosts, $mailBody );
-		$mailBody = str_replace( '%CONTENTS%', $mailContents, $mailBody );
+		$haystack  = array( '%HEADER%', '%NAME%', '%DATE%', '%BODY%', '%CONTENTS%' );
+		$needle    = array( nl2br( $_POST['param']['header'] ), $params['title'], date( 'd.m.Y' ), $mail_body_posts, $mail_contents );
+		$mail_body = str_replace( $haystack, $needle, $mail_template );
 		
 		// Send mail if this is no preview
 		if ( !isset( $_POST['preview'] ) ) {
-			$this->send_mail( $params['title'], $mailBody );
+			$this->send_mail( $params['title'], $mail_body );
 		}
 		else {
-			return $mailBody;
+			return $mail_body;
 		}
 	}
 	
 	/**
 	 * Send the mail
 	 * @param string $title
-	 * @param string $mailBody
+	 * @param string $mail_body
 	 */
-	function send_mail ( $title, $mailBody ) {
+	function send_mail ( $title, $mail_body ) {
 		// I need HTML!
 		add_filter( 'wp_mail_content_type', array( &$this, 'get_content_type' ) );
 
 		// Load options and set some settings
 		$options = get_option( 'mp-newsletter-params' );
 		$subject = $title;
-		$message = $mailBody;
+		$message = $mail_body;
 		
 		// Build headerinformation
 		$header = 'From: '.$options['from_name'].' <'.$options['from_mail'].'>';
@@ -244,6 +265,27 @@ class mpnl extends mpnl_modul {
 	 */
 	function get_content_type ( ) {
 		return 'text/html';
+	}
+	
+	/**
+	 * Formats the content.
+	 * @param string $more_link_text
+	 * @param int $stripteaser
+	 * @param mixed $more_file
+	 */
+	function get_the_content_with_formatting ( $more_link_text = '', $stripteaser = 0, $more_file = '' ) {
+		$content = get_the_content( $more_link_text, $stripteaser, $more_file );
+		$content = apply_filters( 'the_content', $content );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+		return $content;
+	}
+	
+	/**
+	 * Because of the %LINK% Tag
+	 * @param mixed $more
+	 */
+	function force_strip_expert ( $more ) {
+		return '';
 	}
 	
 	/**
