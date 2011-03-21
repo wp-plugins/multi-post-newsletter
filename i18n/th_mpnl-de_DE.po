@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Thomas Herzog <thomas@piraten-sachsen.de>\n"
 "Language-Team: Thomas Herzog <ThomasHerzog85@gmx.at>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: Germany\n"
@@ -161,6 +161,12 @@ msgstr "HTML-Vorschau"
 
 msgid "Newsletter Preview"
 msgstr "Newsletter Vorschau"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "to top"
+msgstr "nach oben"
 
 #~ msgid "Popular Newsletter"
 #~ msgstr "Populäre Newsletter"

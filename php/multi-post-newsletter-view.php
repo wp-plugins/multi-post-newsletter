@@ -270,7 +270,7 @@ class multi_post_newsletter_view {
              <div id="post-body">
               <div id="post-body-content">
                <form action="" method="post" style="margin-bottom: 5px;">
-                <a class="preview button" style="float: left;" href="javascript:history.back(-1)"><?php _e( 'Back' ) ?></a>
+                <a class="preview button" style="float: left;" href="javascript:history.back(-1)"><?php _e( 'Back', multi_post_newsletter::get_textdomain() ) ?></a>
                 <input type="hidden" name="edition" id="edition" value="<?php echo $_POST['edition']; ?>" />
                 <input name="preview_newsletter" type="submit" class="button-primary" tabindex="1" value="<?php _e( 'Generate Preview', multi_post_newsletter::get_textdomain() ); ?>" style="float: right;" />
                 <br class="clear" />
@@ -320,7 +320,7 @@ class multi_post_newsletter_view {
               <div id="post-body-content">
               
 		        <div id="menu-management">
-                    <a class="preview button" style="float: left; margin-right: 5px;" href="javascript:history.back(-1)"><?php _e( 'Back' ) ?></a>
+                    <a class="preview button" style="float: left; margin-right: 5px;" href="javascript:history.back(-1)"><?php _e( 'Back', multi_post_newsletter::get_textdomain() ) ?></a>
                     <?php if ( isset( $_POST['send_test_newsletter'] ) ) { ?>
                         <form action="" method="post">
                             <input type="hidden" name="edition" id="edition" value="<?php echo $_POST['edition']; ?>" />

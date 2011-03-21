@@ -162,29 +162,8 @@ msgstr "HTML-Vorschau"
 msgid "Newsletter Preview"
 msgstr "Newsletter Vorschau"
 
-#~ msgid "Popular Newsletter"
-#~ msgstr "Populäre Newsletter"
+msgid "Back"
+msgstr ""
 
-#~ msgid "All Newsletter"
-#~ msgstr "Alle Newsletter"
-
-#~ msgid "Parent Newsletter"
-#~ msgstr "Übergeordneter Newsletter"
-
-#~ msgid "Parent Newsletter:"
-#~ msgstr "Übergeordneter Newsletter:"
-
-#~ msgid "Edit Newsletter"
-#~ msgstr "Editiere Newsletter"
-
-#~ msgid "Add Newsletter"
-#~ msgstr "Newsletter hinzufügen"
-
-#~ msgid "Read the Article in the blog"
-#~ msgstr "Den Artikel im Blog lesen"
-
-#~ msgid "General Configuration"
-#~ msgstr "Allgemeine Konfiguration"
-
-#~ msgid "Send Testmail"
-#~ msgstr "Testmail versenden"
+msgid "to top"
+msgstr ""

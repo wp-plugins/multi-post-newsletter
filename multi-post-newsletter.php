@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.5
+Version: 0.5.1
 Author URI: http://hughwillfayle.de/
 */
 
@@ -435,17 +435,19 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			// Category Loop
 			foreach ( $categories as $category ) {
 				
-				// Contents
-				if ( 'on' == $template_params['params']['contents'] ) {
-					if ( ! $post_contents ) {
-						$post_contents = "\n\r== " . __( 'Contents', multi_post_newsletter::get_textdomain() ) . " ==\n\r\n\r";
-					}
-					$post_contents .= $category->name . "\n\r";
-				}
 				
 				// Custom Loop
 				$custom_query = new WP_Query( array( 'category_name' => $category->slug , 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $edition ) );
 				if ( $custom_query->post_count > 0 ) {
+					
+					// Contents
+					if ( 'on' == $template_params['params']['contents'] ) {
+						if ( ! $post_contents ) {
+							$post_contents = "\n\r== " . __( 'Contents', multi_post_newsletter::get_textdomain() ) . " ==\n\r\n\r";
+						}
+						$post_contents .= $category->name . "\n\r";
+					}
+					
 					if ( $custom_query->have_posts() ) : while ( $custom_query->have_posts() ) : $custom_query->the_post();
 					
 						// Contents
@@ -538,7 +540,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 							$color = 'even';
 						}
 						
-						$the_link = '<a href="' . get_permalink() . '">' . __( 'Read the Article in the blog', 'th_mpnl' ) . '</a>';
+						$the_link = get_permalink();
 						
 						// Prepare
 						$post->post_title = '<a name="' . get_the_ID() . '"></a>' . get_the_title();
