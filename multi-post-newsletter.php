@@ -548,24 +548,22 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			$headers .= "Content-Type: multipart/alternative; boundary = " . $boundary . "\r\n";
 			
 			//text version
-			$headers .= "\n--" . $boundary . "\n"; // beginning \n added to separate previous content
+			$headers .= "\r\n--" . $boundary . "\r\n"; // beginning \n added to separate previous content
 			$headers .= "Content-Type: text/plain; charset=iso-8859-1\r\n";
 			$headers .= $newsletter_text;
 			
 			//html version
-			$headers .= "\n--" . $boundary . "\n";
-			$headers .= "Content-Disposition: inline\n";
-			$headers .= "Content-Transfer-Encoding: quoted-printable\n";
-			$headers .= "Content-Type: text/html; charset=iso-8859-1\n";
+			$headers .= "\r\n--" . $boundary . "\r\n";
+			$headers .= "Content-Type: text/html; charset=iso-8859-1\r\n";
 			$headers .= $newsletter_html;
 			
 			if ( isset( $_POST['send_test_newsletter'] ) ) {
-				if ( mail( $to_test, $subject, '', $headers ) ) {
+				if ( mail( $to_test, $subject, $newsletter_html, $headers ) ) {
 					$this->display_message( 'testmail' );
 				}
 			}
 			else if ( isset( $_POST['send_newsletter'] ) ) {
-				if ( mail( $to_test, $subject, '', $headers ) ) {
+				if ( mail( $to_test, $subject, $newsletter_html, $headers ) ) {
 					$this->display_message( 'mail' );
 				}
 			}
