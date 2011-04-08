@@ -495,7 +495,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			
 			// Contents End
 			if ( 'on' == $template_params['params']['contents'] ) {
-				$html_mail_contents .= '</ul>';
+				$html_contents .= '</ul>';
 			}
 			
 			// Build Text Newsletter
@@ -519,7 +519,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 		
 		public function send_newsletter ( $edition ) {
 			// Generate Newsletter
-			$newsletters     = $this->build_newsletter();
+			$newsletters     = $this->build_newsletter( $edition );
 			$newsletter_html = $newsletters->html;
 			$newsletter_text = $newsletters->text;
 			
