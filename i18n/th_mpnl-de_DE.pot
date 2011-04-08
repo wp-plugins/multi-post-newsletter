@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Thomas Herzog <thomas@piraten-sachsen.de>\n"
 "Language-Team: Thomas Herzog <ThomasHerzog85@gmx.at>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: Germany\n"
@@ -163,7 +163,67 @@ msgid "Newsletter Preview"
 msgstr "Newsletter Vorschau"
 
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 msgid "to top"
-msgstr ""
+msgstr "nach oben"
+
+msgid "Name of the newsletter"
+msgstr "Name des Newsletters"
+
+msgid "Displays the Intro-Text"
+msgstr "Zeigt den Einleitungstext an"
+
+msgid "Date of the Newsletter"
+msgstr "Datum des Newsletters"
+
+msgid "Displays the contents if needed"
+msgstr "Zeigt das Inhaltsverzeichnis, sofern es gebraucht wird"
+
+msgid "Displays the footer"
+msgstr "Zeigt den Abschlusstext"
+
+msgid "Displays the Posts."
+msgstr "Zeigt die einzelnen Posts an."
+
+msgid "Post Title"
+msgstr "Posttitel"
+
+msgid "Post Content"
+msgstr "Der Post"
+
+msgid "Post Date"
+msgstr "Postdatum"
+
+msgid "Post Author"
+msgstr "Postautor"
+
+msgid "Displays the color setted up in the \"Background-Color\"-Section. Use it like this: &lt;div style=\"background: #%COLOR%;\"&gt; ..."
+msgstr "Zeigt die oben angegebene Farbe  an. Benutz es wie folgt: &lt;div style=\"background: #%COLOR%;\"&gt; ..."
+
+msgid "The permalink of the post"
+msgstr "Der Permalink des Posts"
+
+#~ msgid "Popular Newsletter"
+#~ msgstr "Populäre Newsletter"
+
+#~ msgid "All Newsletter"
+#~ msgstr "Alle Newsletter"
+
+#~ msgid "Parent Newsletter:"
+#~ msgstr "Übergeordneter Newsletter:"
+
+#~ msgid "Edit Newsletter"
+#~ msgstr "Editiere Newsletter"
+
+#~ msgid "Add Newsletter"
+#~ msgstr "Newsletter hinzufügen"
+
+#~ msgid "Read the Article in the blog"
+#~ msgstr "Den Artikel im Blog lesen"
+
+#~ msgid "General Configuration"
+#~ msgstr "Allgemeine Konfiguration"
+
+#~ msgid "Send Testmail"
+#~ msgstr "Testmail versenden"

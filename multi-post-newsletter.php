@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.5.1
+Version: 0.5.2
 Author URI: http://hughwillfayle.de/
 */
 
@@ -85,7 +85,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 				die( 
 					wp_sprintf(
 						'<strong>%1s:</strong> ' . 
-						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $obj->get_textdomain() )
+						__( 'Sorry, This plugin has taken a bold step in requiring PHP 5.2.0+, Your server is currently running PHP %2s, Please bug your host to upgrade to a recent version of PHP which is less bug-prone. At last count, <strong>over 80%% of WordPress installs are using PHP 5.2+</strong>.', $obj->get_textdomain() )
 						, self::get_plugin_data( 'Name' ), PHP_VERSION 
 					)
 				);
@@ -372,165 +372,57 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			
 			// Preview
 			if ( isset( $_POST['preview_newsletter'] ) ) {
-				$newsletter_html = $this->generate_html_newsletter( $_POST['edition'] );
-				$newsletter_text = nl2br( $this->generate_text_newsletter( $_POST['edition'] ) );
+				$newsletters     = $this->build_newsletter( $_POST['edition'] );
+				$newsletter_html = $newsletters->html;
+				$newsletter_text = nl2br( $newsletters->text );
 				multi_post_newsletter_view::newsletter_preview( $newsletter_html, $newsletter_text );
 			}
 		}
 		
-		public function send_newsletter ( $edition ) {
-			
-			// Generate Newsletter
-			$newsletter_html = $this->generate_html_newsletter( $edition );
-			$newsletter_text = $this->generate_text_newsletter( $edition );
-			
-			// Newsletter
-			$letter = get_terms( 'newsletter', array( 'slug' => $edition ) );
-			$letter = $letter[0];
-			
-			// Setup vars
-			$params  = $this->get_my_params();
-			$from    = $params['from_name'] . '<' . $params['from_mail'] . '>';
-			$to_test = $params['to_test'];
-			$to      = $params['to'];
-			$subject = $letter->description;
-			
-			$boundary = "next_part";
-			$headers  = "MIME-Version: 1.0\r\n";
-			$headers .= "From: " . $from . "\r\n";
-			$headers .= "Content-Type: multipart/alternative; boundary = " . $boundary . "\r\n";
-			
-			//text version
-			$headers .= "\n--" . $boundary . "\n"; // beginning \n added to separate previous content
-			$headers .= "Content-type: text/plain; charset=" . get_bloginfo( "charset" ) . "\r\n";
-			$headers .= $newsletter_text;
-			
-			//html version
-			$headers .= "\n--" . $boundary . "\n";
-			$headers .= "Content-Disposition: inline\n";
-			$headers .= "Content-Transfer-Encoding: quoted-printable\n";
-			$headers .= "Content-type: text/html; charset=" . get_bloginfo( "charset" ) . "\n";
-			$headers .= $newsletter_html;
-			
-			if ( isset( $_POST['send_test_newsletter'] ) ) {
-				if ( mail( $to_test, $subject, '', $headers ) ) {
-					$this->display_message( 'testmail' );
-				}
-			}
-			else if ( isset( $_POST['send_newsletter'] ) ) {
-				if ( mail( $to, $subject, '', $headers ) ) {
-					$this->display_message( 'mail' );
-				}
-			}
-		}
-		
-		/**
-		 * Generate Text-Mail
-		 */
-		public function generate_text_newsletter ( $edition ) {
-			// Load params
-			$params          = $this->get_my_params();
-			$template_params = $this->get_my_template();
-			$categories = get_categories( array( 'exclude' => $params['exclude'], 'hide_empty' => true, 'parent' => 0 ) );
-			// Category Loop
-			foreach ( $categories as $category ) {
-				
-				
-				// Custom Loop
-				$custom_query = new WP_Query( array( 'category_name' => $category->slug , 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $edition ) );
-				if ( $custom_query->post_count > 0 ) {
-					
-					// Contents
-					if ( 'on' == $template_params['params']['contents'] ) {
-						if ( ! $post_contents ) {
-							$post_contents = "\n\r== " . __( 'Contents', multi_post_newsletter::get_textdomain() ) . " ==\n\r\n\r";
-						}
-						$post_contents .= $category->name . "\n\r";
-					}
-					
-					if ( $custom_query->have_posts() ) : while ( $custom_query->have_posts() ) : $custom_query->the_post();
-					
-						// Contents
-						if ( 'on' == $template_params['params']['contents'] ) {
-							$post_contents .= ' | ' . get_the_title() . "\n\r";
-						}
-					
-						// Title
-						$post_title = '== ' . get_the_title() . " ==\n\r\n\r";
-						
-						// Content
-						if ( 'on' == $template_params['params']['excerpt'] ) {
-							add_filter( 'excerpt_more', array( $this, 'force_clean_expert' ) );
-							$post_content = get_the_excerpt();
-						}
-						else {
-							$post_content = get_the_content();
-						}
-						$h2t =& new html2text( $post_content );
-			 			$post_content  = $h2t->get_text();
-			 			$post_content .= "\n\r\n\r" . __( 'Read the Article in the blog', multi_post_newsletter::get_textdomain() );
-			 			$post_content .= "\n\r" . get_permalink();
-			 			$post_content .= "\n\r=========================================\n\r";
-			 			
-			 			// Build string
-			 			$content .= $post_title . $post_content;
-					endwhile; endif;
-					//Reset Query
-					wp_reset_query();
-				}
-			}
-			
-			// Build return string
-			$return_string  = $template_params['params']['header'];
-			if ( 'on' == $template_params['params']['contents'] ) {
-				$return_string .= $post_contents . "\n\r";
-			}
-			$return_string .= $content;
-			$return_string .= $template_params['params']['footer'];
-			
-			return $return_string;
-		}
-		
-		public function generate_html_newsletter ( $edition ) {
+		public function build_newsletter ( $edition ) {
 			// Load Options and Template
 			$params          = $this->get_my_params();
 			$template_params = $this->get_my_template();
-			$mail_template	= str_replace( '\\', '', $template_params['main_template'] );
-			$post_template	= str_replace( '\\', '', $template_params['post_template'] );
+			$mail_template   = str_replace( '\\', '', $template_params['main_template'] );
+			$post_template   = str_replace( '\\', '', $template_params['post_template'] );
 			
 			// Load the letter
 			$letter = get_terms( 'newsletter', array( 'slug' => $edition ) );
 			$letter = $letter[0];
 			
 			// Custom Loop and several checks
-			$categories    = get_categories( array( 'exclude' => $params['exclude'], 'hide_empty' => true, 'parent' => 0 ) );
-			$mail_body_posts = '';
-			$color         = 'even';
-	
+			$categories      = get_categories( array( 'exclude' => $params['exclude'], 'hide_empty' => true, 'parent' => 0 ) );
+			$html_body_posts = '';
+			$color           = 'even';
+			
+			// Contents start
 			if ( 'on' == $template_params['params']['contents'] ) {
-				$mail_contents  = $options['contents_before'] . __( 'Contents', multi_post_newsletter::get_textdomain() ) . $options['contents_after'];
-				$mail_contents .= '<ul style="list-style:none;">';
+				// HTML
+				$html_contents  = $options['contents_before'] . __( 'Contents', multi_post_newsletter::get_textdomain() ) . $options['contents_after'];
+				$html_contents .= '<ul style="list-style:none;">';
 			}
 			
+			// Start Custom Double Loop
 			foreach ( $categories as $category ) {
-				
 				$custom_query = new WP_Query( array( 'category_name' => $category->slug, 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $letter->slug ) );
-				//The Loop
 				if ( $custom_query->post_count > 0 ) {
 					
-					// Contents and Headlines
+					// Contents and Categories
 					if ( 'on' == $template_params['params']['contents'] ) {
-						$mail_contents .= '<li>' . $category->name . '<ul style="list-style:none;">';
+						// HTML
+						$html_contents .= '<li>' . $category->name . '<ul style="list-style:none;">';
+						// Text
+						if ( ! $text_contents ) {
+							$text_contents = "\n\r== " . __( 'Contents', multi_post_newsletter::get_textdomain() ) . " ==\n\r\n\r";
+						}
+						$text_contents .= $category->name . "\n\r";
 					}
-					$mail_body_posts .= $template_params['params']['categorie_before'] . $category->name . $template_params['params']['categorie_after'];
+					$html_body_posts .= $template_params['params']['categorie_before'] . $category->name . $template_params['params']['categorie_after'];
 					
+					// Start the Loop to build the newsletter
 					if ( $custom_query->have_posts() ) : while ( $custom_query->have_posts() ) : $custom_query->the_post();
 					
-						// Contents
-						if ( 'on' == $template_params['params']['contents'] ) {
-							$mail_contents .= '<li><a href="#' . get_the_ID() . '">' . get_the_title() . '</a></li>';
-						}
-						
+						// Standards
 						if ( $color == 'even' ) {
 							$the_color = $template_params['params']['color_even'];
 							$color = 'odd';
@@ -542,8 +434,38 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						
 						$the_link = get_permalink();
 						
-						// Prepare
-						$post->post_title = '<a name="' . get_the_ID() . '"></a>' . get_the_title();
+						// Contents
+						if ( 'on' == $template_params['params']['contents'] ) {
+							// HTML
+							$html_contents .= '<li><a href="#' . get_the_ID() . '">' . get_the_title() . '</a></li>';
+							// Text
+							$text_contents .= ' | ' . get_the_title() . "\n\r";
+						}
+						
+						// Text-Mail
+						// Title
+						$text_title = '== ' . get_the_title() . " ==\n\r\n\r";
+						
+						// Content
+						if ( 'on' == $template_params['params']['excerpt'] ) {
+							add_filter( 'excerpt_more', array( $this, 'force_clean_expert' ) );
+							$text_content = get_the_excerpt();
+						}
+						else {
+							$text_content = get_the_content();
+						}
+						$h2t =& new html2text( $text_content );
+			 			$text_content  = $h2t->get_text();
+			 			$text_content .= "\n\r\n\r" . __( 'Read the Article in the blog', multi_post_newsletter::get_textdomain() );
+			 			$text_content .= "\n\r" . $the_link;
+			 			$text_content .= "\n\r=========================================\n\r";
+			 			
+			 			// Build string
+			 			$text_body_content .= $text_title . $text_content;
+			 			
+			 			// HTML Mail
+			 			// Prepare
+						$post->post_title = get_the_title();
 						if ( 'on' == $template_params['params']['excerpt'] ) {
 							add_filter( 'excerpt_more', array( $this, 'force_clean_expert' ) );
 							$content_to_post = get_the_excerpt();
@@ -557,8 +479,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						$haystack = array( '%DATE%', '%TITLE%', '%CONTENT%', '%AUTHOR%', '%COLOR%', '%LINK%' );
 						$needle   = array( get_the_date(), $post->post_title, $content_to_post, get_the_author(), $the_color, $the_link );
 						$replace  = str_replace( $haystack , $needle, $post_template );
-	
-						$mail_body_posts .= $replace;
+						$html_body_posts .= '<a name="' . get_the_ID() . '"></a>' . $replace;
 						
 					endwhile;endif;
 					//Reset Query
@@ -566,22 +487,115 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 					
 					// Contents close
 					if ( 'on' == $template_params['params']['contents'] ) {
-						$mail_contents .= '</ul></li>';
+						// HTML
+						$html_contents .= '</ul></li>';
 					}
 				}
 			}
 			
-			// Contents close
+			// Contents End
 			if ( 'on' == $template_params['params']['contents'] ) {
-				$mail_contents .= '</ul>';
+				$html_mail_contents .= '</ul>';
 			}
 			
-			// Build Mailbody
-			$haystack  = array( '%HEADER%', '%NAME%', '%DATE%', '%BODY%', '%CONTENTS%', '%FOOTER%' );
-			$needle    = array( nl2br( $template_params['params']['header'] ), $letter->description, date( 'd.m.Y' ), $mail_body_posts, $mail_contents, nl2br( $template_params['params']['footer'] ) );
-			$mail_body = str_replace( $haystack, $needle, $mail_template );
+			// Build Text Newsletter
+			$newsletter_text  = $template_params['params']['header'];
+			if ( 'on' == $template_params['params']['contents'] ) {
+				$newsletter_text .= $text_contents . "\n\r";
+			}
+			$newsletter_text .= $text_body_content;
+			$newsletter_text .= $template_params['params']['footer'];
+			
+			// Build HTML Newsletter
+			$haystack        = array( '%HEADER%', '%NAME%', '%DATE%', '%BODY%', '%CONTENTS%', '%FOOTER%' );
+			$needle          = array( nl2br( $template_params['params']['header'] ), $letter->description, date( 'd.m.Y' ), $html_body_posts, $html_contents, nl2br( $template_params['params']['footer'] ) );
+			$newsletter_html = str_replace( $haystack, $needle, $mail_template );
+			
+			// Return Object
+			$newsletter->text = $newsletter_text;
+			$newsletter->html = $newsletter_html;
+			return $newsletter;
+		}
 		
-			return $mail_body;
+		public function send_newsletter ( $edition ) {
+			// Generate Newsletter
+			$newsletters     = $this->build_newsletter();
+			$newsletter_html = $newsletters->html;
+			$newsletter_text = $newsletters->text;
+			
+			// Newsletter
+			$letter = get_terms( 'newsletter', array( 'slug' => $edition ) );
+			$letter = $letter[0];
+			
+			// Setup vars
+			$params  = $this->get_my_params();
+			$from    = $params['from_name'] . '<' . $params['from_mail'] . '>';
+			$to_test = $params['to_test'];
+			$to_bcc  = $params['to'];
+			$subject = $letter->description;
+			
+			$boundary = "guiggui98huh89huj8jp0j9uj9u8nzg8g";
+			$headers  = "MIME-Version: 1.0\r\n";
+			$headers .= "From: " . $from . "\r\n";
+			if ( isset( $_POST['send_newsletter'] ) ) {
+				$headers .= "BCC: " . $to_bcc . "\r\n";
+			}
+			$headers .= "Content-Type: multipart/alternative; boundary = " . $boundary . "\r\n";
+			
+			//text version
+			$headers .= "\n--" . $boundary . "\n"; // beginning \n added to separate previous content
+			$headers .= "Content-Type: text/plain; charset=" . get_bloginfo( "charset" ) . "\r\n";
+			$headers .= $newsletter_text;
+			
+			//html version
+			$headers .= "\n--" . $boundary . "\n";
+			$headers .= "Content-Disposition: inline\n";
+			$headers .= "Content-Transfer-Encoding: quoted-printable\n";
+			$headers .= "Content-Type: text/html; charset=" . get_bloginfo( "charset" ) . "\n";
+			$headers .= $newsletter_html;
+			
+			if ( isset( $_POST['send_test_newsletter'] ) ) {
+				if ( mail( $to_test, $subject, '', $headers ) ) {
+					$this->display_message( 'testmail' );
+				}
+			}
+			else if ( isset( $_POST['send_newsletter'] ) ) {
+				if ( mail( $to_test, $subject, '', $headers ) ) {
+					$this->display_message( 'mail' );
+				}
+			}
 		}
 	}
 }
+
+/** CODEBUSTERS ****************** http://projektmotor.de **
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMNy//dMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMms+.    //NMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMM/`   . `shhhdddmNMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMs .- `:  /yyyyyyyyyhdNMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMmy   `  .  .hyyyyyyyyyyyhdMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMmh/     .`    `hmmmdhyyyyyyyydMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMNhh+      .      -hooshmmhyyyyyyyNMMMMMMMMMMMMM
+MMMMMMMMMMMMNhyh+     `m.     -    `/hhhhhhhhhymMMMMMMMMMMMM
+MMMMMMMMMMMNhyyyh/     `.     ` `:shhhhhhhhhhhho/:mMMMMMMMMM
+MMMMMMMMMMMdyyys.             :ohhhhhhhhhhs++:  +NMMMMMMMMMM
+MMMmmMMMMMNhyh+            -+yyyyyyhhhho:      -+sydNMMMMMMM
+MMms/`-+ymNh+`          .+yhhhhhhhyhs/-`        :+o+dMMMMMMM
+MMMs.     ``      `` `/ydddddddddy/`  - ``-+oss/-/NMMMMMMMMM
+MMMmN/`        .+dMmsdddddddddh+.     ``  :ddhhhyNMMMMMMMMMM
+MMMMmymmyo+` +yddddddddddddho-           `hddddddMMMMMMMMMMM
+MMMMMMMMMMMNsydddddddddddd/             .hddddddNMMMMMMMMMMM
+MMMMMMMMMMMMNmmmmmmmmdmNm: ``         `+dmmmmmdNMMMMMMMMMMMM
+MMMMMMMMMMMMMMmdddddddms`          `:oddddddddNMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMNddddddddhys++//++sydddddddddmMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMNdhhhhhhhhhhhhhhhhhhhhhhdmMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMmdhhhhhhhhhhhhhhhhdmNMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMNmmmdddddmmNNMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMM WHO DO YOU GONNA CALL? MMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+** http://inpsyde.com ********** http://hughwillfayle.de **/

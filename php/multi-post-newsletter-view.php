@@ -57,7 +57,7 @@ class multi_post_newsletter_view {
                       <label for="param[color_even]"><?php _e( 'Background-Color (even)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[color_even]" name="param[color_even]" type="text" value="<? echo $template_params['params']['color_even']; ?>" tabindex="6" class="regular-text" />
+                      <input id="param[color_even]" name="param[color_even]" type="text" value="<?php echo $template_params['params']['color_even']; ?>" tabindex="6" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -65,7 +65,7 @@ class multi_post_newsletter_view {
                       <label for="param[color_odd]"><?php _e( 'Background-Color (odd)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[color_odd]" name="param[color_odd]" type="text" value="<? echo $template_params['params']['color_odd']; ?>" tabindex="7" class="regular-text" />
+                      <input id="param[color_odd]" name="param[color_odd]" type="text" value="<?php echo $template_params['params']['color_odd']; ?>" tabindex="7" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -73,7 +73,7 @@ class multi_post_newsletter_view {
                       <label for="param[contents_before]"><?php _e( 'Contents Headline (before)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[contents_before]" name="param[contents_before]" type="text" value="<? echo $template_params['params']['contents_before']; ?>" tabindex="8" class="regular-text" />
+                      <input id="param[contents_before]" name="param[contents_before]" type="text" value="<?php echo $template_params['params']['contents_before']; ?>" tabindex="8" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -81,7 +81,7 @@ class multi_post_newsletter_view {
                       <label for="param[contents_after]"><?php _e( 'Contents Headlines (after)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[contents_after]" name="param[contents_after]" type="text" value="<? echo $template_params['params']['contents_after']; ?>" tabindex="9" class="regular-text" />
+                      <input id="param[contents_after]" name="param[contents_after]" type="text" value="<?php echo $template_params['params']['contents_after']; ?>" tabindex="9" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -89,7 +89,7 @@ class multi_post_newsletter_view {
                       <label for="param[categorie_before]"><?php _e( 'Categorie Headlines (before)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[categorie_before]" name="param[categorie_before]" type="text" value="<? echo $template_params['params']['categorie_before']; ?>" tabindex="10" class="regular-text" />
+                      <input id="param[categorie_before]" name="param[categorie_before]" type="text" value="<?php echo $template_params['params']['categorie_before']; ?>" tabindex="10" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -97,7 +97,7 @@ class multi_post_newsletter_view {
                       <label for="param[categorie_after]"><?php _e( 'Categorie Headlines (after)', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[categorie_after]" name="param[categorie_after]" type="text" value="<? echo $template_params['params']['categorie_after']; ?>" tabindex="11" class="regular-text" />
+                      <input id="param[categorie_after]" name="param[categorie_after]" type="text" value="<?php echo $template_params['params']['categorie_after']; ?>" tabindex="11" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -121,7 +121,7 @@ class multi_post_newsletter_view {
                       <label for="param[header]"><?php _e( 'Intro-Text', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <textarea id="param[header]" name="param[header]" tabindex="12" rows="20" class="large-text"><? echo $template_params['params']['header']; ?></textarea><br />
+                      <textarea id="param[header]" name="param[header]" tabindex="12" rows="20" class="large-text"><?php echo $template_params['params']['header']; ?></textarea><br />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -129,7 +129,7 @@ class multi_post_newsletter_view {
                       <label for="param[footer]"><?php _e( 'Footer-Text', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <textarea id="param[footer]" name="param[footer]" tabindex="12" rows="20" class="large-text"><? echo $template_params['params']['footer']; ?></textarea><br />
+                      <textarea id="param[footer]" name="param[footer]" tabindex="12" rows="20" class="large-text"><?php echo $template_params['params']['footer']; ?></textarea><br />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -137,8 +137,15 @@ class multi_post_newsletter_view {
                       <label for="template[main_template]"><?php _e( 'Newsletter Template', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <textarea id="template[main_template]" name="template[main_template]" tabindex="12" rows="20" class="large-text"><? echo $template_params['main_template']; ?></textarea><br />
-                      <small>Tags: %NAME% // %HEADER% // %DATE% // %CONTENTS% // %FOOTER% // %BODY%</small>
+                      <textarea id="template[main_template]" name="template[main_template]" tabindex="12" rows="20" class="large-text"><?php echo $template_params['main_template']; ?></textarea><br />
+                      <small>Tags:<br />
+                        %NAME% // <?php _e( 'Name of the newsletter', multi_post_newsletter::get_textdomain() ); ?><br />
+                        %HEADER% // <?php _e( 'Displays the Intro-Text', multi_post_newsletter::get_textdomain() ); ?><br />
+                        %DATE% // <?php _e( 'Date of the Newsletter', multi_post_newsletter::get_textdomain() ); ?><br />
+                        %CONTENTS% // <?php _e( 'Displays the contents if needed', multi_post_newsletter::get_textdomain() ); ?><br />
+                        %FOOTER% // <?php _e( 'Displays the footer', multi_post_newsletter::get_textdomain() ); ?><br />
+                        %BODY% //<?php _e( 'Displays the Posts', multi_post_newsletter::get_textdomain() ); ?>
+                       </small>
                      </td>
                     </tr>
                     <tr valign="top">
@@ -146,8 +153,15 @@ class multi_post_newsletter_view {
                       <label for="template[post_template]"><?php _e( 'Single Post Template', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <textarea id="template[post_template]" name="template[post_template]" tabindex="13" rows="20" class="large-text"><? echo $template_params['post_template']; ?></textarea><br />
-                      <small>Tags: %TITLE% // %CONTENT% // %DATE% // %AUTHOR% // %COLOR% // %LINK%</small>
+                      <textarea id="template[post_template]" name="template[post_template]" tabindex="13" rows="20" class="large-text"><?php echo $template_params['post_template']; ?></textarea><br />
+                      <small>Tags:<br />
+                       %TITLE% // <?php _e( 'Post Title', multi_post_newsletter::get_textdomain() ); ?><br />
+                       %CONTENT% // <?php _e( 'Post Content', multi_post_newsletter::get_textdomain() ); ?><br />
+                       %DATE% // <?php _e( 'Post Date', multi_post_newsletter::get_textdomain() ); ?><br />
+                       %AUTHOR% // <?php _e( 'Post Author', multi_post_newsletter::get_textdomain() ); ?><br />
+                       %COLOR% // <?php _e( 'Displays the color setted up in the \"Background-Color\"-Section. Use it like this: &lt;div style=\"background: #%COLOR%;\"&gt; ...', multi_post_newsletter::get_textdomain() ); ?><br />
+                       %LINK% // <?php _e( 'The permalink of the post', multi_post_newsletter::get_textdomain() ); ?>
+                      </small>
                      </td>
                     </tr>
                    </tbody>
@@ -176,10 +190,18 @@ class multi_post_newsletter_view {
                    <tbody>
                     <tr valign="top">
                      <th scope="row">
+                      <label for="param[exclude]"><?php _e( 'Exluded Categories <small>IDs, comma sperated</small>', multi_post_newsletter::get_textdomain() ); ?>:</label>
+                     </th>
+                     <td>
+                      <input id="param[exclude]" name="param[exclude]" type="text" value="<?php echo $params['exclude']; ?>" tabindex="5" class="regular-text" />
+                     </td>
+                    </tr>
+                    <tr valign="top">
+                     <th scope="row">
                       <label for="param[from_name]"><?php _e( 'Sender Name', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[from_name]" name="param[from_name]" type="text" value="<? echo $params['from_name']; ?>" tabindex="1" class="regular-text" />
+                      <input id="param[from_name]" name="param[from_name]" type="text" value="<?php echo $params['from_name']; ?>" tabindex="1" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -187,7 +209,7 @@ class multi_post_newsletter_view {
                       <label for="param[from_mail]"><?php _e( 'Sender E-Mail', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[from_mail]" name="param[from_mail]" type="text" value="<? echo $params['from_mail']; ?>" tabindex="2" class="regular-text" />
+                      <input id="param[from_mail]" name="param[from_mail]" type="text" value="<?php echo $params['from_mail']; ?>" tabindex="2" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -195,7 +217,7 @@ class multi_post_newsletter_view {
                       <label for="param[to_test]"><?php _e( 'Recipient of Testmail', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[to_test]" name="param[to_test]" type="text" value="<? echo $params['to_test']; ?>" tabindex="3" class="regular-text" />
+                      <input id="param[to_test]" name="param[to_test]" type="text" value="<?php echo $params['to_test']; ?>" tabindex="3" class="regular-text" />
                      </td>
                     </tr>
                     <tr valign="top">
@@ -203,15 +225,7 @@ class multi_post_newsletter_view {
                       <label for="param[to]"><?php _e( 'Recipient of Newsletter', multi_post_newsletter::get_textdomain() ); ?>:</label>
                      </th>
                      <td>
-                      <input id="param[to]" name="param[to]" type="text" value="<? echo $params['to']; ?>" tabindex="4" class="regular-text" />
-                     </td>
-                    </tr>
-                    <tr valign="top">
-                     <th scope="row">
-                      <label for="param[exclude]"><?php _e( 'Exluded Categories <small>IDs, comma sperated</small>', multi_post_newsletter::get_textdomain() ); ?>:</label>
-                     </th>
-                     <td>
-                      <input id="param[exclude]" name="param[exclude]" type="text" value="<? echo $params['exclude']; ?>" tabindex="5" class="regular-text" />
+                      <textarea id="param[to]" name="param[to]"  rows="20" class="large-text" tabindex="4"><?php echo $params['to']; ?></textarea>
                      </td>
                     </tr>
                    </tbody>
