@@ -161,6 +161,7 @@ class multi_post_newsletter_view {
                        %AUTHOR% // <?php _e( 'Post Author', multi_post_newsletter::get_textdomain() ); ?><br />
                        %COLOR% // <?php _e( 'Displays the color setted up in the \"Background-Color\"-Section. Use it like this: &lt;div style=\"background: #%COLOR%;\"&gt; ...', multi_post_newsletter::get_textdomain() ); ?><br />
                        %LINK% // <?php _e( 'The permalink of the post', multi_post_newsletter::get_textdomain() ); ?>
+                       %LINK_NAME% // <?php _e( 'Important for the Contents. It posts a &lt;a name=""&gt;&lt;/a&gt;', multi_post_newsletter::get_textdomain() ); ?>
                       </small>
                      </td>
                     </tr>

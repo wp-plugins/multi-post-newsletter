@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.5.2
+Version: 0.5.3
 Author URI: http://hughwillfayle.de/
 */
 
@@ -310,6 +310,8 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 				$template_params['params']        = $_POST['param'];
 				$template_params['main_template'] = str_replace( '\\', '', $_POST['template']['main_template'] );
 				$template_params['post_template'] = str_replace( '\\', '', $_POST['template']['post_template'] );
+				$template_params['params']['categorie_after']  = str_replace( '\\', '', $template_params['params']['categorie_after'] );
+				$template_params['params']['categorie_before'] = str_replace( '\\', '', $template_params['params']['categorie_before'] );
 				$this->display_message( 'template' );
 			}
 			// Show form
@@ -383,6 +385,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			// Load Options and Template
 			$params          = $this->get_my_params();
 			$template_params = $this->get_my_template();
+			
 			$mail_template   = str_replace( '\\', '', $template_params['main_template'] );
 			$post_template   = str_replace( '\\', '', $template_params['post_template'] );
 			
@@ -417,6 +420,8 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						}
 						$text_contents .= $category->name . "\n\r";
 					}
+					$template_params['params']['categorie_after']  = str_replace( '\\', '', $template_params['params']['categorie_after'] );
+					$template_params['params']['categorie_before'] = str_replace( '\\', '', $template_params['params']['categorie_before'] );
 					$html_body_posts .= $template_params['params']['categorie_before'] . $category->name . $template_params['params']['categorie_after'];
 					
 					// Start the Loop to build the newsletter
@@ -476,10 +481,10 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						}
 						
 						// Replace Template Vars
-						$haystack = array( '%DATE%', '%TITLE%', '%CONTENT%', '%AUTHOR%', '%COLOR%', '%LINK%' );
-						$needle   = array( get_the_date(), $post->post_title, $content_to_post, get_the_author(), $the_color, $the_link );
+						$haystack = array( '%DATE%', '%TITLE%', '%CONTENT%', '%AUTHOR%', '%COLOR%', '%LINK%', '%LINK_NAME%' );
+						$needle   = array( get_the_date(), $post->post_title, $content_to_post, get_the_author(), $the_color, $the_link, '<a name="' . get_the_ID() . '"></a>' );
 						$replace  = str_replace( $haystack , $needle, $post_template );
-						$html_body_posts .= '<a name="' . get_the_ID() . '"></a>' . $replace;
+						$html_body_posts .= $replace;
 						
 					endwhile;endif;
 					//Reset Query
@@ -544,14 +549,14 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			
 			//text version
 			$headers .= "\n--" . $boundary . "\n"; // beginning \n added to separate previous content
-			$headers .= "Content-Type: text/plain; charset=" . get_bloginfo( "charset" ) . "\r\n";
+			$headers .= "Content-Type: text/plain; charset=iso-8859-1\r\n";
 			$headers .= $newsletter_text;
 			
 			//html version
 			$headers .= "\n--" . $boundary . "\n";
 			$headers .= "Content-Disposition: inline\n";
 			$headers .= "Content-Transfer-Encoding: quoted-printable\n";
-			$headers .= "Content-Type: text/html; charset=" . get_bloginfo( "charset" ) . "\n";
+			$headers .= "Content-Type: text/html; charset=iso-8859-1\n";
 			$headers .= $newsletter_html;
 			
 			if ( isset( $_POST['send_test_newsletter'] ) ) {
