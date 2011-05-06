@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.5.3
+Version: 0.5.4
 Author URI: http://hughwillfayle.de/
 */
 
@@ -272,9 +272,9 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 		 */
 		public function backend () {
 			$headlines = array(
-				'mpnl_generate' => __( 'Generate Newsletter', multi_post_newsletter::get_textdomain() ),
+				'mpnl_config'   => __( 'Settings' ),
 				'mpnl_template' => __( 'Template', multi_post_newsletter::get_textdomain() ),
-				'mpnl_config'   => __( 'Settings' )
+				'mpnl_generate' => __( 'Generate Newsletter', multi_post_newsletter::get_textdomain() )
 			);
 			multi_post_newsletter_view::wrapper_start( $headlines[$this->action] );
 			$this->display_message( null );
@@ -362,7 +362,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 					// Show Category
 					multi_post_newsletter_view::show_sortable_category( $category );
 					// Loop
-					$custom_query = new WP_Query( array( 'category_name' => $category->slug , 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $_POST['edition'] ) );
+					$custom_query = new WP_Query( array( 'category_name' => $category->slug , 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $_POST['edition'], 'posts_per_page' => -1 ) );
 					if ( $custom_query->have_posts() ) : while ( $custom_query->have_posts() ) : $custom_query->the_post();
 						multi_post_newsletter_view::show_sortable_post();
 					endwhile; endif;
@@ -407,7 +407,7 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			
 			// Start Custom Double Loop
 			foreach ( $categories as $category ) {
-				$custom_query = new WP_Query( array( 'category_name' => $category->slug, 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $letter->slug ) );
+				$custom_query = new WP_Query( array( 'category_name' => $category->slug, 'orderby' => 'menu_order', 'order' => 'ASC', 'newsletter' => $letter->slug, 'posts_per_page' => -1 ) );
 				if ( $custom_query->post_count > 0 ) {
 					
 					// Contents and Categories
