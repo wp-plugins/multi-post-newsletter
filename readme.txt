@@ -4,7 +4,7 @@ Donate Link: http://hughwillfayle.de
 Tags: newsletter, multiple posts 
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 0.5.5
+Stable tag: 0.5.5.1
 
 The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 
@@ -39,6 +39,9 @@ Licensed under CC-BY-SA 3.0
 * Support Custom Post Types
 * Frontend-Templating
 * Support Article Pictures
+
+= 0.5.5.1 =
+* Code: Fixed annoying Bug in "sending the main newsletter"
 
 = 0.5.5 =
 * Code: Fixed Doubled Mail Problem

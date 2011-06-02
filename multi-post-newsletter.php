@@ -4,7 +4,7 @@ Plugin Name: Multi Post Newsletter
 Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 Author: Thomas Herzog
-Version: 0.5.5
+Version: 0.5.5.1
 Author URI: http://hughwillfayle.de/
 */
 
@@ -558,12 +558,12 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			$headers .= $newsletter_html;
 			
 			if ( isset( $_POST['send_test_newsletter'] ) ) {
-				if ( mail( $to_test, $subject, '', $headers ) ) {
+				if ( mail( $from, $subject, '', $headers ) ) {
 					$this->display_message( 'testmail' );
 				}
 			}
 			else if ( isset( $_POST['send_newsletter'] ) ) {
-				if ( mail( $to_test, $subject, '', $headers ) ) {
+				if ( mail( $from, $subject, '', $headers ) ) {
 					$this->display_message( 'mail' );
 				}
 			}
