@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Multi Post Newsletter
-Plugin URI: http://hughwillfayle.de/wordpress/multipostnewsletter
+Plugin URI: http://wordpress.org/extend/plugins/multi-post-newsletter/
 Description: The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
-Author: Thomas Herzog
-Version: 0.5.5.4
+Author: Hugh Will Fayle
+Version: 0.5.5.5
 Author URI: http://hughwillfayle.de/
 */
 
@@ -445,16 +445,17 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						$the_link = get_permalink();
 						
 						// Contents
+						$h2t_title =& new html2text( get_the_title() );
 						if ( 'on' == $template_params[ 'params' ][ 'contents' ] ) {
 							// HTML
 							$html_contents .= '<li><a href="#' . get_the_ID() . '">' . get_the_title() . '</a></li>';
 							// Text
-							$text_contents .= ' | ' . get_the_title() . "\n\r";
+							$text_contents .= ' | ' . $h2t_title -> get_text() . "\n\r";
 						}
 						
 						// Text-Mail
 						// Title
-						$text_title = '== ' . get_the_title() . " ==\n\r\n\r";
+						$text_title = '== ' . $h2t_title -> get_text() . " ==\n\r\n\r";
 						
 						// Content
 						if ( 'on' == $template_params[ 'params' ][ 'excerpt' ] ) {
@@ -464,11 +465,21 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 						else {
 							$text_content = get_the_content();
 						}
+						$text_content = strip_shortcodes( $text_content );
 						$h2t =& new html2text( $text_content );
 			 			$text_content  = $h2t -> get_text();
 			 			$text_content .= "\n\r\n\r" . __( 'Read the Article in the blog', multi_post_newsletter :: get_textdomain() );
+			 			
+			 			if ( 'on' == $template_params[ 'params' ][ 'use_url_shortener' ] ) {
+							$request = new WP_Http();
+							$request = $request->request( 'http://is.gd/create.php?format=simple&url=' . $the_link );
+							if ( 200 == $request[ 'response' ][ 'code' ] ) {
+								$the_link = $request[ 'body' ];
+							}
+						}
+			 			
 			 			$text_content .= "\n\r" . $the_link;
-			 			$text_content .= "\n\r=========================================\n\r";
+			 			$text_content .= "\n\r\n\r=========================================\n\r\n\r";
 			 			
 			 			// Build string
 			 			$text_body_content .= $text_title . $text_content;
@@ -509,7 +520,8 @@ if ( ! class_exists( 'multi_post_newsletter' ) ) {
 			}
 			
 			// Build Text Newsletter
-			$newsletter_text  = $template_params[ 'params' ][ 'header' ];
+			$h2t_header =& new html2text( $template_params[ 'params' ][ 'header' ] );
+			$newsletter_text  = $h2t_header -> get_text();
 			if ( 'on' == $template_params[ 'params' ][ 'contents' ] ) {
 				$newsletter_text .= $text_contents . "\n\r";
 			}

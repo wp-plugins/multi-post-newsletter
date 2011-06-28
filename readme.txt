@@ -1,10 +1,10 @@
 === Multi Post Newsletter ===
-Contributors: hughwillfayle, wendilane
+Contributors: hughwillfayle
 Donate Link: http://hughwillfayle.de
 Tags: newsletter, multiple posts 
 Requires at least: 3.0
 Tested up to: 3.1
-Stable tag: 0.5.5.4
+Stable tag: 0.5.5.5
 
 The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 
@@ -35,10 +35,16 @@ Licensed under CC-BY-SA 3.0
 == Changelog ==
 
 = Upcoming Features =
+* Support Article Pictures
 * Templating for Text-Mail
 * Support Custom Post Types
-* Support Article Pictures
 * Automattic PDF Export
+* Optional Widget for subscription
+
+= 0.5.5.5 =
+* Feature: URL-Shortener is.gd for text-mail
+* Code: Several Fixes for the text-mail
+* Code: Language Check-Ups
 
 = 0.5.5.4 =
 * Feature: Frontend-Templating

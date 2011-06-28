@@ -118,6 +118,13 @@ class multi_post_newsletter_view {
                     </tr>
                     <tr valign="top">
                      <th scope="row">
+                      <label for="param[use_url_shortener]"><?php _e( 'Use URL-Shortener is.gd in text-mail', multi_post_newsletter :: get_textdomain() ); ?>:</label>
+                     </th>
+                     <td>
+                      <input id="param[use_url_shortener]" name="param[use_url_shortener]" type="checkbox" tabindex="3" <?php if ( 'on' == $template_params['params']['use_url_shortener'] ) { echo 'checked="checked"'; } ?> />
+                     </td>
+                    <tr valign="top">
+                     <th scope="row">
                       <label for="param[header]"><?php _e( 'Intro-Text', multi_post_newsletter :: get_textdomain() ); ?>:</label>
                      </th>
                      <td>

@@ -25,7 +25,8 @@
  * GNU General Public License for more details.                          *
  *                                                                       *
  * Author(s): Jon Abernathy <jon@chuggnutt.com>                          *
- *            Moritz 'Morty' Str�be <morty@gmx.net>                      *
+ *            Moritz 'Morty' Str�be <morty@gmx.net>                    *
+ *            Hugh Will Fayle <http://hughwillfayle.de>                  *
  *                                                                       *
  * Last modified: 10/07/07                                               *
  *                                                                       *
@@ -33,6 +34,7 @@
  * 23/06/07 Added more Unicode stuff (morty@gmx.net)                     *
  * 10/07/07 Added eaven more Unicode stuff (morty@gmx.net)               *
  * 15/11/07 Added smart linewrap (morty@gmx.net)                         *
+ * 28/06/11 Added URL-Shortener-Suppport                                 *
  *************************************************************************/
 
 
@@ -474,13 +476,29 @@ class html2text
 	 */
 	function _build_link_list($link_count, $link, $display)
 	{
-		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
-		substr($link, 0, 7) == 'mailto:' ) {
+		$newsletter = multi_post_newsletter :: get_object();
+		$options = $newsletter -> get_my_template();
+		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' || substr($link, 0, 7) == 'mailto:' ) {
+			if ( 'on' == $options[ 'params' ][ 'use_url_shortener' ] ) {
+				$request = new WP_Http();
+				$request = $request->request( 'http://is.gd/create.php?format=simple&url=' . $link );
+				if ( 200 == $request[ 'response' ][ 'code' ] ) {
+					$link = $request[ 'body' ];
+				}
+			}
 			$this->_link_list .= "[$link_count] $link\n";
-		} else {
+		}
+		else {
 			$this->_link_list .= "[$link_count] " . $this->url;
 			if ( substr($link, 0, 1) != '/' ) {
 				$this->_link_list .= '/';
+			}
+			if ( 'on' == $options[ 'params' ][ 'use_url_shortener' ] ) {
+				$request = new WP_Http();
+				$request = $request->request( 'http://is.gd/create.php?format=simple&url=' . $link );
+				if ( 200 == $request[ 'response' ][ 'code' ] ) {
+					$link = $request[ 'body' ];
+				}
 			}
 			$this->_link_list .= "$link\n";
 		}
