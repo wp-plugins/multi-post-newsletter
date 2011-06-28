@@ -24,13 +24,14 @@ Licensed under CC-BY-SA 3.0
 
 == Screenshots ==
 
-1. Create newsletter
-2. Main configuration
-3. Set post to newsletter
-4. Newsletter Chooser
-5. Sortable Articles
-6. Newsletter HTML-Preview
-7. Newsletter Text-Preview
+1. Main-Settings, nothing special
+2. Template Settings
+3. Editions
+4. Create Newsletter - Step 1 - Choose Edition
+5. Create Newsletter - Step 2 - Order Articles on the fly
+6. Create Newsletter - Step 3 - HTML-Preview
+7. Create Newsletter - Step 3 - Text-Preview
+8. Choose edition for an article
 
 == Changelog ==
 
