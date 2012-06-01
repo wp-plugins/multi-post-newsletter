@@ -1,10 +1,15 @@
-=== Multi Post Newsletter ===
-Contributors: hughwillfayle
-Donate Link: http://hughwillfayle.de
-Tags: newsletter, multiple posts 
-Requires at least: 3.0
-Tested up to: 3.1
-Stable tag: 0.5.5.5
+=== Multipost Newsletter ===
+Contributors: Inpsyde, Bueltge, nullbyte, hughwillfayle
+Donate Link: http://inpsyde.com
+Tags: Newsletter, News, Mailing
+Requires at least: 3.2
+Tested up to: 3.3.2
+Stable tag: 1.0
+License: GPLv3
+
+Integrate full featured newsletter tool with WordPress.
+
+== Description ==
 
 The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
 
@@ -14,33 +19,94 @@ It is available in:
  <li>English</li>
 </ul>
 
-Licensed under CC-BY-SA 3.0
+Please give us feedback, contribute and file technical bugs on 
+[GitHub Repo](https://github.com/inpsyde/Multipost-Newsletter).
+
+= Main Features =
+
+* Custom Post Type and Custom Field Support
+* Prepare Newsletter Dialog
+* to sort the posts
+* Individual Settings for each Post
+* Templating for Text-Mail
+* Mass-Mailing-Feature
+* Widget for Subscription
+
+= Pro Features =
+
+* User Group Management
+* HTML Newsletters
+* Automatic PDF generation
+* SMTP-Support
+* Support for Article Pictures
+
+= Upcoming Pro Features =
+
+* Preview for the templates
+* Several standard HTML and PDF Templates
+* Integration of [Multilingual Press](http://wordpress.org/extend/plugins/multilingual-press/).
+* API combatibility to MailChimp, Mailman etc
+* User Subscribing
+* User Tracking (Backlinks)
+* Several Statistics
+* Archives ("Read online") for HTML-Newsletters
+
+**[Purchase Pro-Version](http://marketpress.com/product/multipost-newsletter/).**
 
 == Installation ==
 
-1. Upload the folder `multi-post-newsletter` to the `/wp-content/plugins/` directory
+1. Upload the folder `multipost-newsletter` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Configure the newsletter
+3. Configure the Newsletter through the Newsletter Menu
+4. Use the help tabs for more information
 
 == Screenshots ==
 
-1. Main-Settings, nothing special
-2. Template Settings
-3. Editions
-4. Create Newsletter - Step 1 - Choose Edition
-5. Create Newsletter - Step 2 - Order Articles on the fly
-6. Create Newsletter - Step 3 - HTML-Preview
-7. Create Newsletter - Step 3 - Text-Preview
-8. Choose edition for an article
+1. Widget for unregistered users
+2. Widget for logged in users
+3. General settings page
+4. SMTP settings page
+5. General Template
+6. HTML Template
+7. Text Template
+8. PDF Template
+9. Spacer Templates
+10. User Settings
+11. User Overview
+12. Groups
+13. Editions Overview
+14. Manage Edtions in Bulk Edit
+15. Prepare Dialog to sort the posts
+16. Preview of the HTML-Newsletter
+17. Create newsletter dialog
+18. Finished Newsletter
+
+== Frequently Asked Questions ==
+
+Please give us feedback, contribute and file technical bugs on 
+[GitHub Repository](https://github.com/inpsyde/Multipost-Newsletter) or use the [Support Forums](http://wordpress.org/support/plugin/multi-post-newsletter).
+
+== Upgrade Notice ==
+
+Due to a complete rewrite we are not able to offer a backward-compatibility to Version 0.5.5.5. Please test on a local system before you install Version 1.0!
 
 == Changelog ==
 
-= Upcoming Features =
-* Support Article Pictures
-* Templating for Text-Mail
-* Support Custom Post Types
-* Automattic PDF Export
-* Optional Widget for subscription
+= 1.0 =
+* License: Changed to GPLv3
+* Version: Hopped Version due to too many changes
+* Code: Complete new Codebase
+* Feature: Automattic PDF Export
+* Feature: Templating for Text-Mail
+* Feature: Support Article Pictures
+* Feature: Improved UI
+* Feature: One Default Template
+* Feature: Add Custom Fields to the template
+* Feature: Fixed translations
+* Feature: Mass-Mailing-Feature
+* Feature: Support for custom post types
+* Feature: Widget for Subscription
+* Feature: Send mail to specific reciptions (groups)
 
 = 0.5.5.5 =
 * Feature: URL-Shortener is.gd for text-mail
@@ -101,6 +167,9 @@ Licensed under CC-BY-SA 3.0
 * Code: Fixed Capabilities
 * Code: Fixed i18n
 * Code: Styling
-
+ 
 = 0.1.1 =
 * Code: Clean Ups, added comments and some other stuff
+
+= 0.1 =
+* Initial Release

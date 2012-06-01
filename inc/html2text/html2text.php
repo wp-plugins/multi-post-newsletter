@@ -2,7 +2,7 @@
 
 /*************************************************************************
  *                                                                       *
- * class.html2text.inc                                                   *
+ * html2text.php                                                         *
  *                                                                       *
  *************************************************************************
  *                                                                       *
@@ -25,8 +25,7 @@
  * GNU General Public License for more details.                          *
  *                                                                       *
  * Author(s): Jon Abernathy <jon@chuggnutt.com>                          *
- *            Moritz 'Morty' Strï¿½be <morty@gmx.net>                    *
- *            Hugh Will Fayle <http://hughwillfayle.de>                  *
+ *            Moritz 'Morty' Stroebe <morty@gmx.net>                    *
  *                                                                       *
  * Last modified: 10/07/07                                               *
  *                                                                       *
@@ -34,7 +33,6 @@
  * 23/06/07 Added more Unicode stuff (morty@gmx.net)                     *
  * 10/07/07 Added eaven more Unicode stuff (morty@gmx.net)               *
  * 15/11/07 Added smart linewrap (morty@gmx.net)                         *
- * 28/06/11 Added URL-Shortener-Suppport                                 *
  *************************************************************************/
 
 
@@ -243,16 +241,16 @@ class html2text
         "'",
         "''",
         'x',
-        'â€ ',
-        'â€¡',
-/*050*/ 'Ë†',
+        ' ',
+        'à',
+/*050*/ 'ö',
         '(0/00)',
-        'Ã¤',
-        'Ã„',
-        'Ã¶',
-        'Ã–',
-        'Ã¼',
-        'Ãœ',
+        'Š',
+        '€',
+        'š',
+        '…',
+        'Ÿ',
+        '†',
         'chr(hexdec("\\1"))',
         'chr(\\1)',
         '',
@@ -420,23 +418,23 @@ class html2text
 	 */
 	function _convert()
 	{
-		
-		
+
+
 		// Variables used for building the link list
 		$link_count = 1;
 		$this->_link_list = '';
 
 		$text = trim(stripslashes($this->html));
-		
+
 
 		// Run our defined search-and-replace
 		$text = preg_replace($this->search, $this->replace, $text);
-		
-		
+
+
 
 		// Strip any other HTML tags
 		$text = strip_tags($text, $this->allowed_tags);
-		
+
 
 		// Bring down number of empty lines to 2 max
 		$text = preg_replace("/\n\s+\n/", "\n\n", $text);
@@ -452,7 +450,8 @@ class html2text
 
 		// Add link list after Wrapping (Thanks to Karsten Tinnefeld)
 		if ( !empty($this->_link_list) ) {
-			$text .= "\n\nLinks:\n------\n" . $this->_link_list;
+			$mpnl = Multipost_Newsletter::get_instance();
+			$text .= "\n\n" . __( 'Links:', $mpnl::$textdomain ) . "\n------\n" . $this->_link_list;
 		}
 
 		$this->text = $text;
@@ -476,16 +475,7 @@ class html2text
 	 */
 	function _build_link_list($link_count, $link, $display)
 	{
-		$newsletter = multi_post_newsletter :: get_object();
-		$options = $newsletter -> get_my_template();
 		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' || substr($link, 0, 7) == 'mailto:' ) {
-			if ( 'on' == $options[ 'params' ][ 'use_url_shortener' ] ) {
-				$request = new WP_Http();
-				$request = $request->request( 'http://is.gd/create.php?format=simple&url=' . $link );
-				if ( 200 == $request[ 'response' ][ 'code' ] ) {
-					$link = $request[ 'body' ];
-				}
-			}
 			$this->_link_list .= "[$link_count] $link\n";
 		}
 		else {
@@ -509,15 +499,15 @@ class html2text
 	function mb(){
 		$args = func_get_args();
 		$func = array_shift($args);
-		
+
 		if(function_exists('mb_' . $func)){
 			$func = 'mb_' . $func;
 		}
-			
+
 		return call_user_func_array($func, $args);
 	}
-	
-	
+
+
 	/**
 	 * Wrap the lines.
 	 *
@@ -527,13 +517,13 @@ class html2text
 	 * @return The broken string
 	 */
 	function smart_wordwrap($str, $linewidth = 72, $linebreak = "\n") {
-		
+
 		$lines = explode($linebreak, $str);
-	  
+
 		$total = "";
 		foreach ($lines as $line) {
 			$length = $this->mb('strlen', $line);
-			 
+
 			// count starting whitespace
 			$offset = $length;
 			for($i = 0; $i < $length; $i ++){
@@ -545,7 +535,7 @@ class html2text
 
 			$start = $this->mb('substr', $line, 0, $offset);
 			$between = $start;
-			 
+
 			// bullet point lines start "\s+*\s", blockquote lines "\s+|\s"
 			$bullet = false;
 			if ($this->mb('substr',$line, $offset, 2) == "* ") {
@@ -557,7 +547,7 @@ class html2text
 				$start   .= "| ";
 				$between  = $start;
 			}
-			 
+
 			$resultline = $start;
 			$resultline .= wordwrap(substr($line, $offset),	
 									$linewidth - $offset,	
@@ -569,7 +559,7 @@ class html2text
 		}
 		return $total;
 	}
-	
+
 
 }
 
