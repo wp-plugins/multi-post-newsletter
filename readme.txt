@@ -26,8 +26,8 @@ Please give us feedback, contribute and file technical bugs on
 
 * Custom Post Type and Custom Field Support
 * Prepare Newsletter Dialog
-* to sort the posts
-* Individual Settings for each Post
+** to sort the posts
+** Individual Settings for each Post
 * Templating for Text-Mail
 * Mass-Mailing-Feature
 * Widget for Subscription
@@ -51,7 +51,7 @@ Please give us feedback, contribute and file technical bugs on
 * Several Statistics
 * Archives ("Read online") for HTML-Newsletters
 
-**[Purchase Pro-Version](http://marketpress.com/product/multipost-newsletter/).**
+**[Purchase Pro-Version](http://marketpress.com/product/multipost-newsletter/)**
 
 == Installation ==
 
@@ -59,6 +59,10 @@ Please give us feedback, contribute and file technical bugs on
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Configure the Newsletter through the Newsletter Menu
 4. Use the help tabs for more information
+
+= Upgrade Notice =
+
+Due to a complete rewrite we are not able to offer a backward-compatibility to Version 0.5.5.5. Please test on a local system before you install Version 1.0!
 
 == Screenshots ==
 
