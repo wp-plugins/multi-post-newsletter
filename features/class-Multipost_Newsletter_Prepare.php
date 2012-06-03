@@ -235,8 +235,10 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 							<?php
 							$current_newsletter = get_option( 'newsletter_' . $edition );
 							$current_newsletter_ids = array();
-							foreach ( $current_newsletter as $nl_posts ) {
-								$current_newsletter_ids[] = $nl_posts[ 'id' ];
+							if ( is_array( $current_newsletter ) ) {
+								foreach ( $current_newsletter as $nl_posts ) {
+									$current_newsletter_ids[] = $nl_posts[ 'id' ];
+								}
 							}
 							
 							// Check for new articles
@@ -339,9 +341,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 												// Compare with post meta
 												if ( '' != get_post_meta( $post[ 'id' ], 'show_post_thumbnail', TRUE ) )
 													$show_post_thumbnail = get_post_meta( $post[ 'id' ], 'show_post_thumbnail', TRUE );
-												else
-													$show_post_thumbnail = 'off';
-													
+												
 												if ( '' != get_post_meta( $post[ 'id' ], 'donot_show_title', TRUE ) )
 													$donot_show_title = get_post_meta( $post[ 'id' ], 'donot_show_title', TRUE );
 												else

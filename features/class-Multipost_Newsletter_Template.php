@@ -64,7 +64,8 @@ if ( ! class_exists( 'Multipost_Newsletter_Template' ) ) {
 			$this->text_post = stripslashes_deep( $this->text_post );
 			$this->text_params = array_map( 'stripslashes_deep', $this->text_params );
 			
-			$this->params = array_map( 'stripslashes_deep', $this->params );
+			if ( is_array( $this->params ) )
+				$this->params = array_map( 'stripslashes_deep', $this->params );
 		}
 		
 		/**

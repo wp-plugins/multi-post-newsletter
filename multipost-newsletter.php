@@ -18,6 +18,12 @@
  *
  * Changelog
  * 
+ * 1.0.1
+ * - Code: Fixed several Notices
+ * - Code: Fixed Charset problems
+ * - Code: Fixed phpmailer recipient problems
+ * - Code: Fixed bug in checkboxes on post preview
+ * 
  * 1.0
  * - License: Changed to GPLv3
  * - Version: Hopped Version due to too many changes

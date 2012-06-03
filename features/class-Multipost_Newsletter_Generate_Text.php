@@ -91,9 +91,13 @@ if ( ! class_exists( 'Multipost_Newsletter_Generate_Text' ) ) {
 			$text = str_replace( '%DATE%', date_i18n( get_option( 'date_format' ) ), $text );
 				
 			// Replace Header
+			$text_header = new html2text( $params[ 'header' ] );
+			$params[ 'header' ] = $text_header->get_text();
 			$text = str_replace( '%HEADER%', nl2br( $params[ 'header' ] ), $text );
 				
 			// Replace Footer
+			$text_footer = new html2text( $params[ 'footer' ] );
+			$params[ 'footer' ] = $text_footer->get_text();
 			$text = str_replace( '%FOOTER%', nl2br( $params[ 'footer' ] ), $text );
 				
 			// Generate Contents

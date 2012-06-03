@@ -4,7 +4,7 @@ Donate Link: http://inpsyde.com
 Tags: Newsletter, News, Mailing
 Requires at least: 3.2
 Tested up to: 3.3.2
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv3
 
 Integrate full featured newsletter tool with WordPress.
@@ -26,8 +26,8 @@ Please give us feedback, contribute and file technical bugs on
 
 * Custom Post Type and Custom Field Support
 * Prepare Newsletter Dialog
-** to sort the posts
-** Individual Settings for each Post
+ * to sort the posts
+ * Individual Settings for each Post
 * Templating for Text-Mail
 * Mass-Mailing-Feature
 * Widget for Subscription
@@ -95,6 +95,12 @@ Please give us feedback, contribute and file technical bugs on
 Due to a complete rewrite we are not able to offer a backward-compatibility to Version 0.5.5.5. Please test on a local system before you install Version 1.0!
 
 == Changelog ==
+
+= 1.0.1 =
+* Code: Fixed several Notices
+* Code: Fixed Charset problems
+* Code: Fixed phpmailer recipient problems
+* Code: Fixed bug in checkboxes on post preview
 
 = 1.0 =
 * License: Changed to GPLv3

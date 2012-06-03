@@ -377,7 +377,6 @@ if ( ! class_exists( 'Multipost_Newsletter_Create' ) ) {
 							ORDER BY ID ASC
 							LIMIT ' . $offset . ', 25';
 				
-				
 				$recipients = $wpdb->get_results( $query );
 				$found = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 				
@@ -391,8 +390,9 @@ if ( ! class_exists( 'Multipost_Newsletter_Create' ) ) {
 						if ( ! is_object( $phpmailer ) || ! is_a( $phpmailer, 'PHPMailer' ) ) {
 							require_once ABSPATH . WPINC . '/class-phpmailer.php';
 							require_once ABSPATH . WPINC . '/class-smtp.php';
-							$phpmailer = new PHPMailer( true );
 						}
+						$phpmailer = new PHPMailer( true );
+						$phpmailer->CharSet = 'UTF-8';
 						
 						// Send over SMTP?
 						if ( TRUE == parent::$is_pro && 'smtp' == $api ) {

@@ -61,16 +61,18 @@ if ( ! class_exists( 'Multipost_Newsletter_Taxonomy' ) ) {
 			$post_types = get_option( 'mp-newsletter-post-types' );
 			
 			// Custom Columns
-			foreach ( $post_types as $post_type ) {
-				
-				if ( isset( $_GET[ 'post_type' ] ) && $post_type != $_GET[ 'post_type' ] )
-					continue;
-				
-				if ( 'post' == $post_type || 'page' == $post_type )
-					$post_type = $post_type . 's';
-				
-				add_filter( 'manage_' . $post_type . '_columns', array( $this, 'custom_column_head' ) );
-				add_filter( 'manage_' . $post_type . '_custom_column', array( $this, 'custom_column_content' ) );
+			if ( is_array( $post_types ) ) {
+				foreach ( $post_types as $post_type ) {
+					
+					if ( isset( $_GET[ 'post_type' ] ) && $post_type != $_GET[ 'post_type' ] )
+						continue;
+					
+					if ( 'post' == $post_type || 'page' == $post_type )
+						$post_type = $post_type . 's';
+					
+					add_filter( 'manage_' . $post_type . '_columns', array( $this, 'custom_column_head' ) );
+					add_filter( 'manage_' . $post_type . '_custom_column', array( $this, 'custom_column_content' ) );
+				}
 			}
 		}
 		
