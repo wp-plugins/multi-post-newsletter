@@ -177,7 +177,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 			}
 			
 			// Output
-			if ( ! is_user_logged_in() ) {
+			if ( is_user_logged_in() ) {
 				if ( isset( $_POST[ 'save_profile' ] ) ) {
 					
 					update_user_meta( get_current_user_id(), 'newsletter_receive', $_POST[ 'newsletter_receive' ] );
