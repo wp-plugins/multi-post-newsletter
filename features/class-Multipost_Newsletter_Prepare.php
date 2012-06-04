@@ -226,10 +226,6 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 						</select>
 						<br class="clear" />
 						
-						<?php
-						// Exclude already printed posts
-						$exclude_posts = array();
-						?>
 						<div id="posts" class="sortable-holder">
 								
 							<?php
@@ -247,8 +243,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 								'order'				=> 'ASC',
 								'post_status'		=> 'publish',
 								'newsletter'		=> $edition,
-								'posts_per_page'	=> -1,
-								'post__not_in'		=> $posts
+								'posts_per_page'	=> -1
 							);
 							$custom_query = new WP_Query( $query_args );
 							
@@ -277,7 +272,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 								foreach ( $current_newsletter as $old_posts ) {
 									$new_newsletter[] = $old_posts;
 								}
-							} else if ( 0 == count( $new_newsletter ) && 0 == count( $current_newsletter ) ) {
+							} else if ( 0 == count( $current_newsletter ) ) {
 								$new_newsletter = $posts;
 							} else {
 								$new_newsletter = $current_newsletter;

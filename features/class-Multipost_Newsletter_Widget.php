@@ -177,7 +177,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 			}
 			
 			// Output
-			if ( is_user_logged_in() ) {
+			if ( ! is_user_logged_in() ) {
 				if ( isset( $_POST[ 'save_profile' ] ) ) {
 					
 					update_user_meta( get_current_user_id(), 'newsletter_receive', $_POST[ 'newsletter_receive' ] );
@@ -202,7 +202,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 				$newsletter_type = get_user_meta( get_current_user_id(), 'newsletter_type', TRUE );
 				if ( ! is_array( $newsletter_type ) )
 					$newsletter_type = array();
-					
+				
 				$newsletter_groups = get_user_meta( get_current_user_id(), 'newsletter_groups', TRUE );
 				if ( ! is_array( $newsletter_groups ) )
 					$newsletter_groups = array();
@@ -213,13 +213,17 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 						<input id="newsletter_receive" name="newsletter_receive" type="checkbox" <?php if ( isset( $newsletter_receive ) && '' != $newsletter_receive ) { echo 'checked="checked"'; } ?> />
 						<label for="newsletter_receive"><?php _e( 'Receive Newsletter', self::$textdomain ); ?></label>
 					</p>
+					
+					<?php if ( TRUE == self::$is_pro ) { ?>
 					<p>
 						<input id="newsletter_type_text" name="newsletter_type[]" value="text" type="checkbox" <?php if ( in_array( 'text', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_text"><?php _e( 'Text', self::$textdomain ); ?></label>
-						<?php if ( TRUE == self::$is_pro ) { ?>
-							<input id="newsletter_type_html" name="newsletter_type[]" value="html" type="checkbox" <?php if ( in_array( 'html', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_html"><?php _e( 'HTML', self::$textdomain ); ?></label>
-						<?php } ?> 
+						<input id="newsletter_type_html" name="newsletter_type[]" value="html" type="checkbox" <?php if ( in_array( 'html', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_html"><?php _e( 'HTML', self::$textdomain ); ?></label>
 					</p>
-					<?php if ( is_array( $groups ) && 0 < count( $groups ) ) {  ?>
+					<?php } else {
+						?><input name="newsletter_type[]" value="text" type="hidden" /><?php
+					} ?>
+					 
+					<?php if ( TRUE == self::$is_pro && is_array( $groups ) && 0 < count( $groups ) ) {  ?>
 					<p>
 						<label for="groups"><?php _e( 'Groups', self::$textdomain ); ?></label>
 						<select data-placeholder="Choose some Groups" id="groups" name="newsletter_groups[]" style="width: 100%;" multiple class="chzn-select">
@@ -247,12 +251,16 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 					<p>
 						<input type="text" name="user_email" value="<?php if ( isset( $_POST[ 'user_email' ] ) ) echo $_POST[ 'user_email' ]; ?>" placeholder="<?php _e( 'E-mail' ); ?>" id="user_email" />
 					</p>
+					<?php if ( TRUE == self::$is_pro ) { ?>
 					<p>
 						<input id="newsletter_type_html" name="newsletter_type[]" value="html" type="checkbox" <?php if ( isset( $_POST[ 'newsletter_type' ] ) && in_array( 'html', $_POST[ 'newsletter_type' ] ) ) echo 'checked="checked"'; ?> /> <label for="newsletter_type_html"><?php _e( 'HTML', self::$textdomain ); ?></label>
 						<input id="newsletter_type_text" name="newsletter_type[]" value="text" type="checkbox" <?php if ( isset( $_POST[ 'newsletter_type' ] ) && in_array( 'text', $_POST[ 'newsletter_type' ] ) ) echo 'checked="checked"'; ?> /> <label for="newsletter_type_text"><?php _e( 'Text', self::$textdomain ); ?></label>
 					</p>
+					<?php } else {
+						?><input name="newsletter_type[]" value="text" type="hidden" /><?php
+					} ?>
 					
-					<?php if ( is_array( $groups ) && 0 < count( $groups ) ) {  ?>
+					<?php if ( TRUE == self::$is_pro && is_array( $groups ) && 0 < count( $groups ) ) {  ?>
 					<p>
 						<select data-placeholder="Choose some Groups" id="groups" name="groups[]" style="width: 100%;" multiple class="chzn-select">
 							<?php foreach ( $groups as $group ) { ?>

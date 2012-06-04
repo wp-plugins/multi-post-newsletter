@@ -166,18 +166,20 @@ if ( ! class_exists( 'Multipost_Newsletter_Profile' ) ) {
 						<input id="newsletter_receive" name="newsletter_receive" type="checkbox" <?php if ( isset( $newsletter_receive ) && '' != $newsletter_receive ) { echo 'checked="checked"'; } ?> />
 					</td>
 				</tr>
+				<?php if ( TRUE == parent::$is_pro ) { ?>
 				<tr>
 					<th>
 						<label for="newsletter_type"><?php _e( 'Type', parent::$textdomain ); ?></label>
 					</th>
 					<td>
 						<input id="newsletter_type_text" name="newsletter_type[]" value="text" type="checkbox" <?php if ( in_array( 'text', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_text"><?php _e( 'Text', parent::$textdomain ); ?></label>
-						<?php if ( TRUE == parent::$is_pro ) { ?>
-							<input id="newsletter_type_html" name="newsletter_type[]" value="html" type="checkbox" <?php if ( in_array( 'html', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_html"><?php _e( 'HTML', parent::$textdomain ); ?></label><br />
-						<?php } ?>
+						<input id="newsletter_type_html" name="newsletter_type[]" value="html" type="checkbox" <?php if ( in_array( 'html', $newsletter_type ) ) { echo 'checked="checked"'; } ?> /> <label for="newsletter_type_html"><?php _e( 'HTML', parent::$textdomain ); ?></label><br />
 					</td>
 				</tr>
-				<?php if ( is_array( $groups ) && 0 < count( $groups ) ) {  ?>
+				<?php } else {
+					?><input name="newsletter_type[]" value="text" type="hidden" /><?php
+				} ?>
+				<?php if ( TRUE == parent::$is_pro && is_array( $groups ) && 0 < count( $groups ) ) {  ?>
 				<tr>
 					<th>
 						<label for="newsletter_groups"><?php _e( 'Groups', parent::$textdomain ); ?></label>

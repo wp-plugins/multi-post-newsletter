@@ -224,18 +224,22 @@ if ( ! class_exists( 'Multipost_Newsletter_Template' ) ) {
 							<div id="mp-newsletter-restore-points" class="postbox">
 								<h3 class="hndle"><span><?php _e( 'Restore Template Settings', parent::$textdomain ); ?></span></h3>
 								<div class="inside">
-									<form action="" method="post">
-										<p>
-											<?php $restore_points = get_option( 'mp-newsletter-restore-points' ); ?>
-											<select name="restore_point">
-												<option value="0"><?php _e( 'Chose Restore Point', parent::$textdomain ); ?></option>
-												<?php foreach ( $restore_points as $name => $point ) { ?>
-													<option value="<?php echo $name; ?>"><?php echo $point[ 'name' ]; ?></option>
-												<?php } ?>
-											</select>
-										</p>
-										<p><input type="submit" name="restore_template_settings" value="<?php _e( 'Restore Template Settings', parent::$textdomain ); ?>" class="button-secondary" /></p>
-									</form>
+									<?php
+									$restore_points = get_option( 'mp-newsletter-restore-points' );
+									if ( is_array( $restore_points ) ) :
+									?>
+										<form action="" method="post">
+											<p>
+												<select name="restore_point">
+													<option value="0"><?php _e( 'Chose Restore Point', parent::$textdomain ); ?></option>
+													<?php foreach ( $restore_points as $name => $point ) { ?>
+														<option value="<?php echo $name; ?>"><?php echo $point[ 'name' ]; ?></option>
+													<?php } ?>
+												</select>
+											</p>
+											<p><input type="submit" name="restore_template_settings" value="<?php _e( 'Restore Template Settings', parent::$textdomain ); ?>" class="button-secondary" /></p>
+										</form>
+									<?php endif; ?>
 								</div>
 							</div>
 							
@@ -335,7 +339,8 @@ if ( ! class_exists( 'Multipost_Newsletter_Template' ) ) {
 			}
 			
 			$spacers = get_option( 'mp-newsletter-spacers' );
-			$spacers = array_map( 'stripslashes_deep', $spacers );
+			if ( is_array( $spacers ) )
+				$spacers = array_map( 'stripslashes_deep', $spacers );
 			?>
 			<div id="settings" class="postbox">
 				<div class="handlediv" title="<?php _e( 'Click to toggle', parent::$textdomain ); ?>"><br /></div>
@@ -378,49 +383,51 @@ if ( ! class_exists( 'Multipost_Newsletter_Template' ) ) {
 			<h4><?php _e( 'Currently available spacers', parent::$textdomain ); ?></h4>
 			
 			<?php
-			foreach ( $spacers as $title => $spacer ) {
-				?>
-					<div id="settings" class="postbox">
-					<div class="handlediv" title="<?php _e( 'Click to toggle', parent::$textdomain ); ?>"><br /></div>
-					<h3 class="hndle"><span><?php echo $spacer[ 'title' ]; ?></span></h3>
-					<div class="inside" style="display: none">
-						<form action="admin.php?page=mpnl_template&tab=spacer" method="post">
-							<table class="form-table">
-								<tbody>
-									<tr valign="top">
-										<th scope="row">
-											<label for="spacer[title]"><?php echo $spacer[ 'title' ]; ?>:</label>
-										</th>
-										<td>
-											<input id="spacer[title]" name="spacer[title]" type="text" tabindex="1" class="large-text" value="<?php echo $spacer[ 'title' ]; ?>" />
-										</td>
-									</tr>
-									<tr valign="top">
-										<th scope="row">
-											<label for="spacer[html]"><?php _e( 'HTML Content', parent::$textdomain ); ?>:</label>
-										</th>
-										<td>
-											<textarea id="spacer[html]" name="spacer[html]" tabindex="2" rows="10" class="large-text"><?php echo $spacer[ 'html' ]; ?></textarea>
-										</td>
-									</tr>
-									<tr valign="top">
-										<th scope="row">
-											<label for="spacer[text]"><?php _e( 'Text Content', parent::$textdomain ); ?>:</label>
-										</th>
-										<td>
-											<textarea id="spacer[text]" name="spacer[text]" tabindex="2" rows="10" class="large-text"><?php echo $spacer[ 'text' ]; ?></textarea>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<input type="hidden" name="sanitized_title" value="<?php echo $title; ?>" />
-							<span class="submitbox"><a href="admin.php?page=mpnl_template&tab=spacer&delete_spacer=<?php echo $title; ?>" class="submitdelete"><?php _e( 'Delete Spacer', parent::$textdomain ) ?></a></span>
-							<input name="save_spacer" type="submit" class="button-primary" tabindex="3" value="<?php _e( 'Edit Spacer', parent::$textdomain ); ?>" style="float: right;" />
-							<br class="clear" />
-						</form>
+			if ( is_array( $spacers ) ) {
+				foreach ( $spacers as $title => $spacer ) {
+					?>
+						<div id="settings" class="postbox">
+						<div class="handlediv" title="<?php _e( 'Click to toggle', parent::$textdomain ); ?>"><br /></div>
+						<h3 class="hndle"><span><?php echo $spacer[ 'title' ]; ?></span></h3>
+						<div class="inside" style="display: none">
+							<form action="admin.php?page=mpnl_template&tab=spacer" method="post">
+								<table class="form-table">
+									<tbody>
+										<tr valign="top">
+											<th scope="row">
+												<label for="spacer[title]"><?php echo $spacer[ 'title' ]; ?>:</label>
+											</th>
+											<td>
+												<input id="spacer[title]" name="spacer[title]" type="text" tabindex="1" class="large-text" value="<?php echo $spacer[ 'title' ]; ?>" />
+											</td>
+										</tr>
+										<tr valign="top">
+											<th scope="row">
+												<label for="spacer[html]"><?php _e( 'HTML Content', parent::$textdomain ); ?>:</label>
+											</th>
+											<td>
+												<textarea id="spacer[html]" name="spacer[html]" tabindex="2" rows="10" class="large-text"><?php echo $spacer[ 'html' ]; ?></textarea>
+											</td>
+										</tr>
+										<tr valign="top">
+											<th scope="row">
+												<label for="spacer[text]"><?php _e( 'Text Content', parent::$textdomain ); ?>:</label>
+											</th>
+											<td>
+												<textarea id="spacer[text]" name="spacer[text]" tabindex="2" rows="10" class="large-text"><?php echo $spacer[ 'text' ]; ?></textarea>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<input type="hidden" name="sanitized_title" value="<?php echo $title; ?>" />
+								<span class="submitbox"><a href="admin.php?page=mpnl_template&tab=spacer&delete_spacer=<?php echo $title; ?>" class="submitdelete"><?php _e( 'Delete Spacer', parent::$textdomain ) ?></a></span>
+								<input name="save_spacer" type="submit" class="button-primary" tabindex="3" value="<?php _e( 'Edit Spacer', parent::$textdomain ); ?>" style="float: right;" />
+								<br class="clear" />
+							</form>
+						</div>
 					</div>
-				</div>
-				<?php
+					<?php
+				}
 			}
 		}
 		
