@@ -3,7 +3,7 @@
  * Plugin Name:	Multipost Newsletter
  * Plugin URI:	http://marketpress.com/product/multipost-newsletter/
  * Description:	The Multi Post Newsletter is a simple plugin, which provides to link several posts to a newsletter. This procedure is similar to the categories. Within the flexible configuration and templating, you're able to set the newsletters appearance to your requirement.
- * Version:		1.0.2
+ * Version:		1.0.4
  * Author:		Inpsyde GmbH
  * Author URI:	http://inpsyde.com
  * Licence:		GPLv3
@@ -17,6 +17,15 @@
  * to your requirement.
  *
  * Changelog
+ * 
+ * 1.0.4
+ * - Code: Fixed fatal error on widget
+ * 
+ * 1.0.3
+ * - Code: Fixed several Warnings and Notices
+ * - Code: Fixed SMTP Connection
+ * - Code: Fixed article remove from an edition
+ * - Code: Added target="_blank" at PDF-Link in Preview
  * 
  * 1.0.2
  * - Code: Fixed Warning in Prepare Dialog
@@ -294,7 +303,6 @@ if ( ! class_exists( 'Multipost_Newsletter' ) ) {
 		
 		/**
 		 * Returns array of features, also
-		 * saves them in the class var $loaded_modules.
 		 * Scans the plugins subfolder "/features"
 		 *
 		 * @since	0.5

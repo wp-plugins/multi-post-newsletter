@@ -386,7 +386,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Template' ) ) {
 			if ( is_array( $spacers ) ) {
 				foreach ( $spacers as $title => $spacer ) {
 					?>
-						<div id="settings" class="postbox">
+					<div id="settings" class="postbox">
 						<div class="handlediv" title="<?php _e( 'Click to toggle', parent::$textdomain ); ?>"><br /></div>
 						<h3 class="hndle"><span><?php echo $spacer[ 'title' ]; ?></span></h3>
 						<div class="inside" style="display: none">

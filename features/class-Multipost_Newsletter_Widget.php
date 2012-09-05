@@ -116,9 +116,6 @@ if ( ! class_exists( 'Multipost_Newsletter_Widget' ) ) {
 			if ( isset( $_POST[ 'register' ] ) ) {
 					
 				// Is email valid?
-				if ( is_email_address_unsafe( $_POST[ 'user_email' ] ) )
-					$my_errors[ 'user_email' ] = __( 'Please enter a correct email address' );
-					
 				if ( '' == trim( $_POST[ 'user_email' ] ) || ! filter_var( $_POST[ 'user_email' ], FILTER_VALIDATE_EMAIL ) )
 					$my_errors[ 'user_email' ] = __( 'Please enter a correct email address' );
 			

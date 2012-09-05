@@ -217,6 +217,17 @@ if ( ! class_exists( 'Multipost_Newsletter_Create' ) ) {
 		 */
 		public function send_test_newsletter( $edition, $api, $group = '' ) {
 			
+			// Check Edition
+			$full_edition = get_terms( 'newsletter', array( 'slug' => $edition ) );
+			// Abort if there is no edition
+			if ( ! isset( $full_edition ) ) {
+				$html = '<div class="updated"><p>
+				' . __( 'You didnot choose an edition!', parent::$textdomain ) . '
+				</p></div>';
+				return $html;
+			}
+			$full_edition = $full_edition[ 0 ];
+			
 			// Reset Edition for each recipient
 			$all_users = get_users_of_blog();
 			foreach ( $all_users as $user ) {
@@ -244,10 +255,6 @@ if ( ! class_exists( 'Multipost_Newsletter_Create' ) ) {
 				$html = str_replace( '%PDF_LINK%', $pdf->pdf_link, $html );
 				$text = str_replace( '%PDF_LINK%', $pdf->pdf_link, $text );
 			}
-			
-			// Prepare Test-Mail
-			$full_edition = get_terms( 'newsletter', array( 'slug' => $edition ) );
-			$full_edition = $full_edition[ 0 ];
 			
 			// Subject
 			$subject = __( 'Testmail: ', parent::$textdomain ) . $full_edition->description;
@@ -399,6 +406,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Create' ) ) {
 							$phpmailer->IsSMTP();
 							$phpmailer->SMTPAuth = true;
 							$phpmailer->Host     = $smtp_options[ 'host' ];
+							$phpmailer->Port 	 = $smtp_options[ 'port' ];
 							$phpmailer->Username = $smtp_options[ 'user' ];
 							$phpmailer->Password = $smtp_options[ 'pass' ];
 						} else {

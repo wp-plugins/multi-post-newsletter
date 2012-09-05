@@ -196,7 +196,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Init' ) ) {
 			$fields[ 'image_path' ] = array(
 				'label'      => __( 'File Path', parent::$textdomain ),
 				'input'      => 'html',
-				'html'       => "<input type='text' class='text urlfield' readonly='readonly' name='attachments[$post->ID][file_path]' value='" . esc_attr( get_attached_file( $attachment->ID ) ) . "' /><br />",
+				'html'       => "<input type='text' class='text urlfield' readonly='readonly' name='attachments[$attachment->ID][file_path]' value='" . esc_attr( get_attached_file( $attachment->ID ) ) . "' /><br />",
 				'value'      => get_attached_file( $attachment->ID ),
 				'helps'      => __( 'Path of the uploaded file.', parent::$textdomain )
 			);

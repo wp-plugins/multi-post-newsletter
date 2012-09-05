@@ -118,6 +118,11 @@ if ( ! class_exists( 'Multipost_Newsletter_Profile' ) ) {
 		public function profile_update( $user_id ) {
 		
 			if ( 0 < count( $_POST ) ) {
+				
+				// Fix notices
+				if ( ! isset( $_POST[ 'newsletter_receive' ] ) )
+					$_POST[ 'newsletter_receive' ] = '';
+				
 				update_user_meta( $user_id, 'newsletter_receive', $_POST[ 'newsletter_receive' ] );
 
 				if ( isset( $_POST[ 'newsletter_type' ] ) && 0 < count( $_POST[ 'newsletter_type' ] ) )

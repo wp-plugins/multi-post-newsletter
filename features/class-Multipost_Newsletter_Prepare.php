@@ -282,6 +282,11 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 							
 							// Load Current Newsletter
 							$current_newsletter = get_option( 'newsletter_' . $edition );
+							
+							// Fix Notice
+							if ( ! isset( $current_newsletter ) )
+								$current_newsletter = array();
+							
 							$standard_template = get_option( 'mp-newsletter-template-params' );
 							$pdf_options = get_option( 'mp-newsletter-pdf' );
 							
@@ -584,7 +589,7 @@ if ( ! class_exists( 'Multipost_Newsletter_Prepare' ) ) {
 				
 			$pdf = Multipost_Newsletter_Generate_PDF::generate_pdf( $_POST[ 'edition' ] );
 			
-			echo '<a href="' . $pdf->pdf_link . '">' . __( 'Download PDF', parent::$textdomain ) . '</a>';
+			echo '<a href="' . $pdf->pdf_link . '" target="_blank">' . __( 'Download PDF', parent::$textdomain ) . '</a>';
 			
 			die;
 		}
