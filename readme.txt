@@ -4,7 +4,7 @@ Donate Link: http://inpsyde.com
 Tags: Newsletter, News, Mailing
 Requires at least: 3.2
 Tested up to: 3.4.2
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv3
 
 Integrate full featured newsletter tool with WordPress.
@@ -96,8 +96,9 @@ Due to a complete rewrite we are not able to offer a backward-compatibility to V
 
 == Changelog ==
 
-= 1.0.5 =
+= 1.0.6 =
 * Code: Updated Auto Updater
+* Version: Version Hopping due to some Auto Update issues
 
 = 1.0.4 =
 * Code: Fixed fatal error on widget
