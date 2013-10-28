@@ -1,5 +1,5 @@
 === Multipost Newsletter ===
-Contributors: Inpsyde, Bueltge, nullbyte, hughwillfayle
+Contributors: Inpsyde, HerrLlama
 Donate Link: http://inpsyde.com
 Tags: Newsletter, News, Mailing
 Requires at least: 3.2
